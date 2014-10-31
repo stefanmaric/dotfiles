@@ -1,4 +1,4 @@
 dotfiles
 ========
 
-Yup, these are my dotfile. *-*
+Yup, these are my dotfile \*-\*

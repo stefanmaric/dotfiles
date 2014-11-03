@@ -6,7 +6,7 @@ function add_padding --description "Add padding to a string"
 
   set -l string $argv[1]
 
-  switch (count $argv) > /dev/null
+  switch (count $argv)
     case 1
 
       set string " $string "

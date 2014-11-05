@@ -20,7 +20,7 @@ function fish_title
 			end
 
 			if [ $process = "sudo" ]
-				set process (echo $history[1] | sed -e 's/^[ (sudo)]*//g' -e 's/\(^[a-zA-Z0-9]*\)\(.*\)/\1/g')
+				set process (echo $history[1] | sed -e 's/^ *//g' -e 's/^sudo *//g' -e 's/\(^[^ ]*\)\(.*\)/\1/g')
 			end
 
 			set title $process""$on_project

@@ -11,3 +11,11 @@
 	status = auto
 [branch]
 	autosetuprebase = always
+[alias]
+	st = status -sb
+	cm = commit -m
+	co = checkout
+	br = branch
+	amend = commit --amend
+	diff = diff --word-diff=color
+	update = !git pull --rebase --prune $@ && git submodule update --init --recursive

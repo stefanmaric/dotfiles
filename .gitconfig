@@ -1,0 +1,13 @@
+[user]
+	email = alexstefan92@gmail.com
+	name = Stefan Maric
+[push]
+	default = simple
+[credential]
+	helper = cache --timeout=28800
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+[branch]
+	autosetuprebase = always

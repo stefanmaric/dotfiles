@@ -19,3 +19,6 @@
 	amend = commit --amend
 	diff = diff --word-diff=color
 	update = !git pull --rebase --prune $@ && git submodule update --init --recursive
+
+[url "https://stefanmaric@github.com"]
+	insteadOf = https://github.com

@@ -6,7 +6,7 @@ function fish_title
 	set -l title ""
 
 	if [ (whoami) = "root" -o $_ = "sudo" ]
-		set god "ϟ "
+		set god "⚡ "
 	end
 
 	if set -q FISH_TITLE

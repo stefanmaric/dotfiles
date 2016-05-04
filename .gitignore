@@ -1,4 +1,4 @@
 # personal fish data
-fish/fishd.*
-fish/fish_history
-fish/fish_read_history
+.config/fish/fishd.*
+.config/fish/fish_history
+.config/fish/fish_read_history

@@ -1,3 +1,5 @@
+set -gx PATH $PATH $HOME/bin
+
 set -gx GOPATH $HOME/.golang
 set -gx PATH $PATH $GOPATH/bin
 

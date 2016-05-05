@@ -1,5 +1,5 @@
-set -g -x GOPATH $HOME/.golang
-set -g -x PATH $PATH $GOPATH/bin
+set -gx GOPATH $HOME/.golang
+set -gx PATH $PATH $GOPATH/bin
 
-set -g -x N_PREFIX $HOME/n
-set -g -x PATH $PATH $N_PREFIX/bin
+set -gx N_PREFIX $HOME/n
+set -gx PATH $PATH $N_PREFIX/bin

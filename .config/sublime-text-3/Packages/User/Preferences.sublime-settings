@@ -1,0 +1,27 @@
+{
+	"bold_folder_labels": true,
+	"color_scheme": "Packages/User/SublimeLinter/base16-eighties.dark (SL).tmTheme",
+	"ensure_newline_at_eof_on_save": true,
+	"font_size": 14,
+	"highlight_modified_tabs": true,
+	"ignored_packages":
+	[
+		"Markdown",
+		"Vintage"
+	],
+	"indent_guide_options":
+	[
+		"draw_normal",
+		"draw_active"
+	],
+	"rulers":
+	[
+		80
+	],
+	"show_encoding": true,
+	"show_line_endings": true,
+	"spacegray_sidebar_tree_large": true,
+	"spacegray_tabs_auto_width": true,
+	"spacegray_tabs_xlarge": true,
+	"theme": "Spacegray Eighties.sublime-theme"
+}

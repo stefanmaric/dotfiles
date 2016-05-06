@@ -1,0 +1,34 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Alignment",
+		"All Autocomplete",
+		"API Blueprint",
+		"CSS Format",
+		"DocBlockr",
+		"EditorConfig",
+		"Emmet",
+		"fish-shell",
+		"GitGutter",
+		"HTML-CSS-JS Prettify",
+		"Jade",
+		"JavaScriptNext - ES6 Syntax",
+		"LESS",
+		"Markdown Preview",
+		"MarkdownEditing",
+		"Package Control",
+		"Pretty JSON",
+		"Sass",
+		"StandardFormat",
+		"Stylus",
+		"SublimeLinter",
+		"SublimeLinter-contrib-eslint",
+		"SublimeLinter-contrib-standard",
+		"Theme - Spacegray",
+		"TrailingSpaces"
+	]
+}

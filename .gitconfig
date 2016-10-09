@@ -21,7 +21,6 @@
 	br = branch
 	amend = commit --amend
 	diff = diff --word-diff=color
-	update = !git pull --rebase --prune $@ && git submodule update --init --recursive
 # `git publish` pushes a new or existing local branch to a given remote.
 # Usage:
 # 	git publish [<remote>] <branch>

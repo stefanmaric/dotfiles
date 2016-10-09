@@ -22,6 +22,17 @@
 	amend = commit --amend
 	diff = diff --word-diff=color
 	update = !git pull --rebase --prune $@ && git submodule update --init --recursive
+# `git publish` pushes a new or existing local branch to a given remote.
+# Usage:
+# 	git publish [<remote>] <branch>
+# Options:
+# 	<remote>		Configured remote or GIT URL [default: origin].
+# 	<branch>		Name of new or existing branch.
+	publish = "!f(){ \
+		b=${2:-$1};\
+		test -z $2 && r=origin || r=$1;\
+		git checkout $b || git checkout -b $b && git push -u $r $b;\
+	}; f"
 
 # Tell git to infer my username for github and bitbucket https repos
 

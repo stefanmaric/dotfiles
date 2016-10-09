@@ -14,7 +14,7 @@
 [branch]
 	autosetuprebase = always
 [alias]
-	su = !git submodule foreach 'git checkout $(git -C $toplevel symbolic-ref --short -q HEAD) && git pull'
+	su = !git pull && git submodule foreach 'git checkout $(git -C $toplevel symbolic-ref --short -q HEAD) && git pull'
 	st = status -sb
 	cm = commit -m
 	co = checkout

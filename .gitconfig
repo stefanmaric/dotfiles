@@ -34,17 +34,13 @@
 	}; f"
 
 # Tell git to infer my username for github and bitbucket https repos
-
 [url "https://stefanmaric@github.com/"]
 	insteadOf = https://github.com/
-
 [url "https://stefanmaric@bitbucket.org/"]
         insteadOf = https://bitbucket.org
 
 # Also tell git to use https: instead of git:
-
 [url "https://stefanmaric@github.com/"]
 	insteadOf = git@github.com:
-
 [url "https://stefanmaric@bitbucket.org/"]
 	insteadOf = git@bitbucket.org:

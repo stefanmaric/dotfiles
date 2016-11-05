@@ -15,8 +15,9 @@ function fish_title
 		if [ $process = "fish" ]
 			set title (prompt_pwd)
 		else
-			if test (git rev-parse --is-inside-work-tree ^/dev/null)
-				set on_project " on "(basename (git rev-parse --show-toplevel))
+			if git_is_repo
+				and test -n git_repository_root
+				set on_project " on "(basename (git_repository_root))
 			end
 
 			if [ $process = "sudo" ]

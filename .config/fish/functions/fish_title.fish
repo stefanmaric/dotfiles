@@ -5,14 +5,14 @@ function fish_title
 	set -l on_project ""
 	set -l title ""
 
-	if [ (whoami) = "root" -o $_ = "sudo" ]
+	if [ (whoami) = "root" -o $process = "sudo" ]
 		set god "⚡ "
 	end
 
 	if set -q FISH_TITLE
 		set title $FISH_TITLE
 	else
-		if [ $_ = "fish" ]
+		if [ $process = "fish" ]
 			set title (prompt_pwd)
 		else
 			if test (git rev-parse --is-inside-work-tree ^/dev/null)

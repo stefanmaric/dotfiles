@@ -1,5 +1,5 @@
 [core]
-	editor = nano -SEic -T 2 -r 72
+	editor = nano --smooth --tabstospaces --autoindent --const --tabsize=2 --fill=70
 [user]
 	email = alexstefan92@gmail.com
 	name = Stefan Maric

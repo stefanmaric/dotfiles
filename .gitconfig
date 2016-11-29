@@ -11,8 +11,6 @@
 	branch = auto
 	diff = auto
 	status = auto
-[branch]
-	autosetuprebase = always
 [alias]
 	su = !git pull && git submodule foreach 'git checkout $(git -C $toplevel symbolic-ref --short -q HEAD) && git pull'
 	st = status -sb

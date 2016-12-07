@@ -40,7 +40,7 @@
 [url "https://stefanmaric@github.com/"]
 	insteadOf = https://github.com/
 [url "https://stefanmaric@bitbucket.org/"]
-        insteadOf = https://bitbucket.org
+	insteadOf = https://bitbucket.org
 
 # Also tell git to use https: instead of git:
 [url "https://stefanmaric@github.com/"]

@@ -22,7 +22,7 @@
 	br = branch
 	lc = log -1
 	tl = tag --list
-	amend = commit --amend
+	amend = commit --status --verbose --amend
 	diff = diff --word-diff=color
 # `git publish` pushes a new or existing local branch to a given remote.
 # Usage:

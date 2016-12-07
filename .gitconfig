@@ -15,6 +15,7 @@
 	ap = add --patch
 	su = !git pull && git submodule foreach 'git checkout $(git -C $toplevel symbolic-ref --short -q HEAD) && git pull'
 	st = status --short --branch
+	dc = diff --cached
 	c = commit --status --verbose
 	cm = commit -m
 	co = checkout

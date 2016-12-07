@@ -20,6 +20,7 @@
 	co = checkout
 	br = branch
 	lc = log -1
+	tl = tag --list
 	amend = commit --amend
 	diff = diff --word-diff=color
 # `git publish` pushes a new or existing local branch to a given remote.

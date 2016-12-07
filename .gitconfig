@@ -14,6 +14,7 @@
 [alias]
 	su = !git pull && git submodule foreach 'git checkout $(git -C $toplevel symbolic-ref --short -q HEAD) && git pull'
 	st = status -sb
+	c = commit --status --verbose
 	cm = commit -m
 	co = checkout
 	br = branch

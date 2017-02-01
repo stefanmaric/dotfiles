@@ -35,6 +35,38 @@
 		test -z $2 && r=origin || r=$1;\
 		git checkout $b || git checkout -b $b && git push -u $r $b;\
 	}; f"
+# `git purge` does local and remote cleanup.
+#
+# Usage:
+# 	git publish <remote> <base_branch>
+# Options:
+# 	<remote>				Configured remote or GIT URL
+# 	<base_branch>		Name of main branch to base the cleanup on.
+#
+# Lines description
+# 	Store <remote> on $r
+# 	Store <base_branch> on $r
+# 	Sync <remote> branches
+# 	Switch to desired <remote>/<base_branch> just in case, stop the fuction if it doesn't exists
+# 	Delete <remote> branches
+# 	Delete all <remote>'s merged branches into <base_branch>
+# 	Delete all local merged branches into <base_branch>
+# 	Go back to branch checked out before starting
+# 	Garbage collector
+	purge = "!f(){ \
+		r=$1;\
+		b=$2;\
+		git fetch $r || exit 1;\
+		git checkout --quiet $r/$b || exit 1;\
+		git remote prune $r;\
+		git branch --remotes --merged $r/$b \
+			| egrep -v \"$r/(HEAD|master|develop|release|$b)\" \
+			| sed \"s/$r\\//$r --delete /\" \
+			| xargs -L 1 git push;\
+		git branch --merged $r/$b | egrep -v \"(master|develop|release|$b)\" | xargs -n 1 git branch --delete;\
+		git checkout --quiet -;\
+		git gc;\
+	}; f"
 
 # Tell git to infer my username for github and bitbucket https repos
 [url "https://stefanmaric@github.com/"]

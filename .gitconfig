@@ -1,7 +1,7 @@
 [core]
 	editor = nano --smooth --tabstospaces --autoindent --const --tabsize=2 --fill=70
 [user]
-	email = alexstefan92@gmail.com
+	email = me@stefanmaric.com
 	name = Stefan Maric
 [push]
 	default = simple

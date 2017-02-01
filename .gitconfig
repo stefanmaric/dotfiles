@@ -23,7 +23,7 @@
 	lc = log -1
 	st = status --short --branch
 	tl = tag --list
-	su = !git pull && git submodule foreach 'git checkout $(git -C $toplevel symbolic-ref --short -q HEAD) && git pull'
+	su = !git pull && git submodule foreach 'git checkout $(git -C $toplevel symbolic-ref --short --quiet HEAD) && git pull'
 # `git publish` pushes a new or existing local branch to a given remote.
 # Usage:
 # 	git publish [<remote>] <branch>

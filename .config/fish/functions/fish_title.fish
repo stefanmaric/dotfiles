@@ -28,6 +28,6 @@ function fish_title
 		end
 	end
 
-	echo "$god"(add_padding $title (math 12 - (echo $title | wc -c) ) )
+	echo "$god"(add_padding $title (math 28 - (echo $title | wc -c)))
 
 end

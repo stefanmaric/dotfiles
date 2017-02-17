@@ -13,21 +13,16 @@
 		"Emmet",
 		"fish-shell",
 		"GitGutter",
-		"GitHubinator",
-		"HTML-CSS-JS Prettify",
 		"Jade",
 		"LESS",
 		"MarkdownEditing",
 		"Package Control",
 		"Pretty JSON",
 		"SCSS",
-		"SideBarEnhancements",
-		"StandardFormat",
 		"Stylus",
 		"SublimeLinter",
 		"SublimeLinter-contrib-eslint",
 		"SublimeLinter-contrib-standard",
 		"Theme - Spacegray",
-		"TrailingSpaces"
 	]
 }

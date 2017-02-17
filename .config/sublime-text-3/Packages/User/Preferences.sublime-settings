@@ -1,6 +1,6 @@
 {
 	"bold_folder_labels": true,
-	"color_scheme": "Packages/User/SublimeLinter/base16-eighties.dark (SL).tmTheme",
+	"color_scheme": "Packages/User/SublimeLinter/base16-ocean.dark (SL).tmTheme",
 	"ensure_newline_at_eof_on_save": true,
 	"font_size": 14,
 	"highlight_modified_tabs": true,
@@ -18,10 +18,13 @@
 	[
 		80
 	],
+	"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "node_modules", "bower_components"],
+	"draw_white_space": "all",
+    "spell_check": true,
 	"show_encoding": true,
 	"show_line_endings": true,
 	"spacegray_sidebar_tree_large": true,
 	"spacegray_tabs_auto_width": true,
 	"spacegray_tabs_xlarge": true,
-	"theme": "Spacegray Eighties.sublime-theme"
+	"theme": "Spacegray.sublime-theme"
 }

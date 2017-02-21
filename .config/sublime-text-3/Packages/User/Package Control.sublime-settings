@@ -23,6 +23,7 @@
 		"SublimeLinter",
 		"SublimeLinter-contrib-eslint",
 		"SublimeLinter-contrib-standard",
+		"SublimeLinter-contrib-write-good",
 		"Theme - Spacegray"
 	]
 }

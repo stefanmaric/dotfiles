@@ -1,0 +1,11 @@
+
+[Desktop Entry]
+Comment[ru_RU]=АльтЁ терминал
+Comment=AltYo terminal
+Encoding=UTF-8
+Exec=altyo --id=org.gtk.altyo
+Name[ru_RU]=АльтЁ
+Name=altyo
+Type=Application
+Version=1.0
+X-GNOME-Autostart-Delay=1

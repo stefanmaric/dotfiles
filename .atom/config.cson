@@ -1,0 +1,30 @@
+"*":
+  "atom-ternjs":
+    inlineFnCompletionDocumentation: true
+  core:
+    autoHideMenuBar: true
+    disabledPackages: [
+      "whitespace"
+    ]
+    openEmptyEditorOnStart: false
+    packagesWithKeymapsDisabled: [
+      "atom-ternjs"
+    ]
+    telemetryConsent: "limited"
+  editor:
+    fontSize: 16
+    scrollPastEnd: true
+    showIndentGuide: true
+    showInvisibles: true
+    zoomFontWhenCtrlScrolling: false
+  linter:
+    showErrorPanel: false
+  "linter-eslint":
+    globalNodePath: "/home/sam/n"
+    useGlobalEslint: true
+  "linter-write-good":
+    severityLevel: "Warning"
+  "one-dark-ui":
+    layoutMode: "Compact"
+  welcome:
+    showOnStartup: false

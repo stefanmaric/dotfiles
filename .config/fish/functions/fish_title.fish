@@ -6,7 +6,7 @@ function fish_title
 	set -l title ""
 
 	if [ (whoami) = "root" -o $process = "sudo" ]
-		set god "⚡ "
+		set god "( ⚡ )"
 	end
 
 	if set -q FISH_TITLE
@@ -28,6 +28,6 @@ function fish_title
 		end
 	end
 
-	echo "$god"(add_padding $title (math 28 - (echo $title | wc -c)))
+	echo "$god  $title"
 
 end

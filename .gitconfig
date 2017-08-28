@@ -6,7 +6,7 @@
 [push]
 	default = simple
 [credential]
-	helper = cache --timeout=7200
+	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [color]
 	branch = auto
 	diff = auto

@@ -5,5 +5,5 @@ function mycommits --description 'Recursively search for git repos, aggregate al
 		| sed 's/\.\///g' \
 		| sed 's/\/\.git//g' \
 		| sed 's/\.git, //g' \
-		| sed 's/ \([0-9]\{2\}[: ]\)\{3\}-\?[0-9]\{4\}//g'
+		| sed 's/ \([0-9]\{2\}[: ]\)\{3\}[+-]\?[0-9]\{4\}//g'
 end

@@ -60,10 +60,10 @@
 		git checkout --quiet $r/$b || exit 1;\
 		git remote prune $r;\
 		git branch --remotes --merged $r/$b \
-			| egrep -v \"$r/(HEAD|master|develop|release|$b)\" \
+			| egrep -v \"$r/(HEAD|master|develop|production|$b)\" \
 			| sed \"s/$r\\//$r --delete /\" \
 			| xargs -L 1 git push;\
-		git branch --merged $r/$b | egrep -v \"(master|develop|release|$b)\" | xargs -n 1 git branch --delete;\
+		git branch --merged $r/$b | egrep -v \"(master|develop|production|$b)\" | xargs -n 1 git branch --delete;\
 		git checkout --quiet -;\
 		git gc;\
 	}; f"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Workaround for gnome issue with iBus and input source switching.
 # Uses gesettings to retrieve current configuration and uses sed to shift input sources, i.e.: change to next input source.

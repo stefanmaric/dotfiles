@@ -81,7 +81,7 @@ USERLAND_PACKAGES=(
   adapta-gtk-theme
   bleachbit
   chromium-browser
-  code-insiders
+  code
   firefox
   fish
   gdebi
@@ -117,7 +117,6 @@ sudo snap install telegram-desktop
 # setup node env
 
 wget -qO - https://git.io/n-install | bash -s -- -y latest
-
 source ~/.bashrc
 
 NPM_PACKAGES=(
@@ -129,17 +128,25 @@ NPM_PACKAGES=(
 
 npm -g install "${NPM_PACKAGES[@]}"
 
+
 # setup golang env
+
+wget -qO - https://git.io/g-install | bash -s -- fish bash
+source ~/.bashrc
 
 
 # git-extras
 
 wget -qO - https://git.io/git-extras-setup | sudo bash -s
 
+
 # hub
+
+go get github.com/github/hub
+curl --create-dirs -sSLo ~/.config/fish/completions/hub.fish https://raw.githubusercontent.com/github/hub/master/etc/hub.fish_completion
 
 
 # fish and fisher
 
-curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
+curl --create-dirs -sSLo ~/.config/fish/functions/fisher.fish https://git.io/fisher
 fish -c 'fisher up'

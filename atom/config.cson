@@ -12,19 +12,18 @@
     ]
     telemetryConsent: "limited"
   editor:
-    fontSize: 16
+    fontSize: 17
     scrollPastEnd: true
     showIndentGuide: true
     showInvisibles: true
     zoomFontWhenCtrlScrolling: false
-  linter:
-    showErrorPanel: false
+  "exception-reporting":
+    userId: "1afe37d3-b53c-4744-a2f9-984309393dd3"
+  linter: {}
   "linter-eslint":
     globalNodePath: "/home/sam/n"
     useGlobalEslint: true
-  "linter-write-good":
-    severityLevel: "Warning"
-  "one-dark-ui":
-    layoutMode: "Compact"
+  "linter-ui-default":
+    showPanel: true
   welcome:
     showOnStartup: false

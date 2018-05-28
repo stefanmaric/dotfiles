@@ -1,0 +1,39 @@
+{
+    "workbench.startupEditor": "none",
+    "editor.fontSize": 16,
+    "editor.tabSize": 2,
+    "editor.renderWhitespace": "boundary",
+    "window.zoomLevel": 0.5,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/node_modules": true
+    },
+    "editor.links": false,
+    "editor.minimap.maxColumn": 100,
+    "editor.minimap.renderCharacters": false,
+    "editor.renderControlCharacters": true,
+    "editor.rulers": [
+        80,
+        100
+    ],
+    "workbench.commandPalette.preserveInput": true,
+    "workbench.editor.openPositioning": "last",
+    "workbench.editor.revealIfOpen": true,
+    "window.menuBarVisibility": "toggle",
+    "window.newWindowDimensions": "maximized",
+    "window.restoreWindows": "none",
+    "window.title": "${dirty}${activeEditorShort}${separator}${rootName}",
+    "search.location": "panel",
+    "update.enableWindowsBackgroundUpdates": false,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    "npm.enableScriptExplorer": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false
+}

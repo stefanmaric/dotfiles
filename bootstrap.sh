@@ -1,6 +1,6 @@
 #!/bin/bash -i
 
-SETUP_DIR="$(dirname $0)"
+SETUP_DIR="$(dirname "$0")"
 
 # create symlinks
 
@@ -10,7 +10,7 @@ setup_links() {
   for file in "${!DOTFILES_LINKS[@]}"; do
     local SRC_PATH="$SETUP_DIR/$file"
     local DST_PATH="${DOTFILES_LINKS[$file]}"
-    local DST_DIR="$(dirname $DST_PATH)"
+    local DST_DIR="$(dirname "$DST_PATH")"
 
     if [[ -f "$SRC_PATH" ]]; then
       echo INFO: "Linking $SRC_PATH in $DST_PATH"

@@ -64,15 +64,15 @@ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sou
 wget -qO - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo apt-key add -
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
 
-sudo add-apt-repository ppa:mozillateam/firefox-next
+sudo add-apt-repository -y ppa:mozillateam/firefox-next
 
-sudo add-apt-repository ppa:fish-shell/release-2
+sudo add-apt-repository -y ppa:fish-shell/release-2
 
-sudo add-apt-repository ppa:otto-kesselgulasch/gimp
+sudo add-apt-repository -y ppa:otto-kesselgulasch/gimp
 
-sudo add-apt-repository ppa:snwh/pulp
+sudo add-apt-repository -y ppa:snwh/pulp
 
-sudo add-apt-repository ppa:tista/adapta
+sudo add-apt-repository -y ppa:tista/adapta
 
 
 # install Ubuntu packages
@@ -95,7 +95,6 @@ USERLAND_PACKAGES=(
   network-manager-openvpn-gnome
   openvpn
   paper-cursor-theme
-  paper-gtk-theme
   paper-icon-theme
   sublime-text
   syncthing
@@ -108,7 +107,7 @@ sudo apt update
 sudo apt install -y "${USERLAND_PACKAGES[@]}"
 
 sudo snap install asciinema --classic
-sudo snap install atom
+sudo snap install atom --classic
 sudo snap install skype --classic
 sudo snap install spotify
 sudo snap install telegram-desktop

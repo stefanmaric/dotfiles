@@ -90,6 +90,8 @@ USERLAND_PACKAGES=(
   gitg
   gitk
   gmic
+  gnome-tweak-tool
+  gparted
   inkscape
   network-manager-openvpn
   network-manager-openvpn-gnome

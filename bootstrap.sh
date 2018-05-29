@@ -134,6 +134,7 @@ npm -g install "${NPM_PACKAGES[@]}"
 
 wget -qO - https://git.io/g-install | bash -s -- fish bash
 source ~/.bashrc
+g install latest
 
 
 # git-extras

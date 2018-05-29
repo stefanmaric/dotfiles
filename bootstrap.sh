@@ -6,6 +6,12 @@ SETUP_DIR="$(dirname $0)"
 
 source "$SETUP_DIR/DOTFILES_LINKS.sh"
 
+# Hack to source Ubuntu's bashrc file inside non-interative scripts.
+reload_env() {
+  # Simply remove the first few lines that skips the initlization if the
+  eval "$(cat ~/.bashrc | tail -n +10)"
+}
+
 setup_links() {
   for file in "${!DOTFILES_LINKS[@]}"; do
     local SRC_PATH="$SETUP_DIR/$file"
@@ -116,7 +122,7 @@ sudo snap install telegram-desktop
 # setup node env
 
 wget -qO - https://git.io/n-install | bash -s -- -y latest
-source ~/.bashrc
+reload_env()
 
 NPM_PACKAGES=(
   eslint
@@ -131,7 +137,7 @@ npm -g install "${NPM_PACKAGES[@]}"
 # setup golang env
 
 wget -qO - https://git.io/g-install | bash -s -- fish bash
-source ~/.bashrc
+reload_env()
 
 
 # git-extras

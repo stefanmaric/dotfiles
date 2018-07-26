@@ -1,6 +1,6 @@
 #!/bin/bash -i
 
-SETUP_DIR="$(dirname "$0")"
+SETUP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 # create symlinks
 
@@ -13,7 +13,7 @@ setup_links() {
     local DST_DIR="$(dirname "$DST_PATH")"
 
     if [[ -f "$SRC_PATH" ]]; then
-      echo INFO: "Linking $SRC_PATH in $DST_PATH"
+      echo INFO: "Linking $file in $DST_PATH"
       mkdir -p "$DST_DIR"
       ln -s -f "$SRC_PATH" "$DST_PATH"
     else
@@ -23,8 +23,6 @@ setup_links() {
 }
 
 setup_links
-
-exit 0
 
 
 # install cli essentials

@@ -3,7 +3,7 @@
     "editor.fontSize": 16,
     "editor.tabSize": 2,
     "editor.renderWhitespace": "boundary",
-    "window.zoomLevel": 0.5,
+    "window.zoomLevel": 1,
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -35,5 +35,8 @@
     "workbench.iconTheme": "material-icon-theme",
     "css.validate": false,
     "less.validate": false,
-    "scss.validate": false
+    "scss.validate": false,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "prettier.eslintIntegration": true,
+    "window.titleBarStyle": "native"
 }

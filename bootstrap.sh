@@ -28,6 +28,7 @@ setup_links
 # install cli essentials
 
 BASIC_PACKAGES=(
+  aptitude
   apt-transport-https
   binutils
   bison
@@ -97,6 +98,7 @@ USERLAND_PACKAGES=(
   paper-cursor-theme
   paper-icon-theme
   sublime-text
+  synaptic
   syncthing
   ubuntu-restricted-extras
   vlc

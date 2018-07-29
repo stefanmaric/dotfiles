@@ -151,4 +151,4 @@ curl --create-dirs -sSLo ~/.config/fish/completions/hub.fish https://raw.githubu
 # fish and fisher
 
 curl --create-dirs -sSLo ~/.config/fish/functions/fisher.fish https://git.io/fisher
-fish -c 'fisher up'
+fish -c 'fisher'

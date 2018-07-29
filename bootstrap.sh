@@ -62,15 +62,15 @@ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sou
 wget -qO - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo apt-key add -
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
 
-sudo add-apt-repository -y ppa:mozillateam/firefox-next
+sudo add-apt-repository -n -y ppa:mozillateam/firefox-next
 
-sudo add-apt-repository -y ppa:fish-shell/release-2
+sudo add-apt-repository -n -y ppa:fish-shell/release-2
 
-sudo add-apt-repository -y ppa:otto-kesselgulasch/gimp
+sudo add-apt-repository -n -y ppa:otto-kesselgulasch/gimp
 
-sudo add-apt-repository -y ppa:snwh/pulp
+sudo add-apt-repository -n -y ppa:snwh/pulp
 
-sudo add-apt-repository -y ppa:tista/adapta
+sudo add-apt-repository -n -y ppa:tista/adapta
 
 
 # install Ubuntu packages

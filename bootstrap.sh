@@ -28,8 +28,8 @@ setup_links
 # install cli essentials
 
 BASIC_PACKAGES=(
-  aptitude
   apt-transport-https
+  aptitude
   binutils
   bison
   build-essential
@@ -41,10 +41,12 @@ BASIC_PACKAGES=(
   jq
   lm-sensors
   make
+  p7zip-full
   powertop
   smem
   software-properties-common
   tree
+  whois
 )
 
 sudo apt update

@@ -125,6 +125,7 @@ source ~/.bashrc
 NPM_PACKAGES=(
   eslint
   flow-bin
+  prettier-eslint-cli
   stylelint
   typescript
 )

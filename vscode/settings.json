@@ -38,5 +38,9 @@
     "scss.validate": false,
     "javascript.updateImportsOnFileMove.enabled": "always",
     "prettier.eslintIntegration": true,
-    "window.titleBarStyle": "native"
+    "window.titleBarStyle": "native",
+    "explorer.confirmDelete": false,
+    "path-intellisense.mappings": {
+        "@": "src/"
+    }
 }

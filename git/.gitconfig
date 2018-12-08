@@ -15,6 +15,7 @@
 	amend = commit --status --verbose --amend
 	ap = add --patch
 	br = branch
+	bl = branch -av
 	c = commit --status --verbose
 	cm = commit -m
 	co = checkout

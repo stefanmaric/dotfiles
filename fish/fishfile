@@ -1,8 +1,8 @@
+fishpkg/fish-git-util
+fishpkg/fish-humanize-duration
+franciscolourenco/done
+jorgebucaran/fishtape
 nyarly/fish-bang-bang
-stefanmaric/bigfish
-fisherman/done
-stefanmaric/eslintblame
-fisherman/fishtape
-fisherman/git_util
-fisherman/humanize_duration
 nyarly/fish-lookup
+stefanmaric/bigfish
+stefanmaric/eslintblame

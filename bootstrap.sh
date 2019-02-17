@@ -67,7 +67,7 @@ echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" 
 
 sudo add-apt-repository -n -y ppa:mozillateam/firefox-next
 
-sudo add-apt-repository -n -y ppa:fish-shell/release-2
+sudo add-apt-repository -n -y ppa:fish-shell/release-3
 
 sudo add-apt-repository -n -y ppa:otto-kesselgulasch/gimp
 

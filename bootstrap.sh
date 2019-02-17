@@ -86,6 +86,7 @@ USERLAND_PACKAGES=(
   firefox
   fish
   gdebi
+  dconf-editor
   gimp
   gimp-gmic
   gitg

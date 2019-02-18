@@ -39,8 +39,5 @@
     "javascript.updateImportsOnFileMove.enabled": "always",
     "prettier.eslintIntegration": true,
     "window.titleBarStyle": "native",
-    "explorer.confirmDelete": false,
-    "path-intellisense.mappings": {
-        "@": "src/"
-    }
+    "explorer.confirmDelete": false
 }

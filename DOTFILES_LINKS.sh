@@ -14,6 +14,7 @@ declare -A DOTFILES_LINKS=(
   [fish/functions/splitOpenVpnFile.fish]="$HOME/.config/fish/functions/splitOpenVpnFile.fish"
   [fish/functions/take.fish]="$HOME/.config/fish/functions/take.fish"
   [git/.gitconfig]="$HOME/.gitconfig"
+  [stack/config.yaml]="$HOME/.stack/config.yaml"
   [prettier/.prettierrc.json]="$HOME/.prettierrc.json"
   [sublime/Default (Linux).sublime-keymap]="$HOME/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap"
   [sublime/Package Control.sublime-settings]="$HOME/.config/sublime-text-3/Packages/User/Package Control.sublime-settings"

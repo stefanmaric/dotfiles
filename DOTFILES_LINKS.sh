@@ -13,6 +13,7 @@ declare -A DOTFILES_LINKS=(
   [fish/functions/mycommits.fish]="$HOME/.config/fish/functions/mycommits.fish"
   [fish/functions/splitOpenVpnFile.fish]="$HOME/.config/fish/functions/splitOpenVpnFile.fish"
   [fish/functions/take.fish]="$HOME/.config/fish/functions/take.fish"
+  [fish/functions/treediff.fish]="$HOME/.config/fish/functions/treediff.fish"
   [git/.gitconfig]="$HOME/.gitconfig"
   [stack/config.yaml]="$HOME/.stack/config.yaml"
   [prettier/.prettierrc.json]="$HOME/.prettierrc.json"

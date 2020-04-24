@@ -127,7 +127,7 @@ sudo snap install telegram-desktop
 
 # setup node env
 
-wget -qO - https://git.io/n-install | bash -s -- -y latest
+wget -qO - https://git.io/n-install | bash -s -- -y lts
 source ~/.bashrc
 
 NPM_PACKAGES=(
@@ -147,7 +147,7 @@ npm -g install "${NPM_PACKAGES[@]}"
 
 wget -qO - https://git.io/g-install | sh -s -- fish bash
 source ~/.bashrc
-g install lts
+g install latest
 
 
 # git-extras

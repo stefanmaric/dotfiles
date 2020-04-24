@@ -6,12 +6,9 @@
 	"installed_packages":
 	[
 		"EditorConfig",
-		"GitGutter",
-		"MarkdownEditing",
 		"Package Control",
 		"Pretty JSON",
 		"SublimeLinter",
-		"Theme - Spacegray",
 		"SublimeLinter-eslint"
 	]
 }

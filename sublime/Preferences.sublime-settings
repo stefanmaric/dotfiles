@@ -1,6 +1,6 @@
 {
 	"bold_folder_labels": true,
-	"color_scheme": "Packages/Theme - Spacegray/base16-ocean.light.tmTheme",
+	"color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
 	"draw_white_space": "all",
 	"ensure_newline_at_eof_on_save": true,
 	"folder_exclude_patterns":
@@ -30,11 +30,7 @@
 	],
 	"show_encoding": true,
 	"show_line_endings": true,
-	"spacegray_sidebar_tree_large": true,
-	"spacegray_tabs_auto_width": true,
-	"spacegray_tabs_xlarge": true,
 	"spell_check": true,
 	"tab_size": 2,
-	"theme": "Spacegray Light.sublime-theme",
 	"translate_tabs_to_spaces": false
 }

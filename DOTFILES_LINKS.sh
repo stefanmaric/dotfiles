@@ -1,10 +1,9 @@
+#!/bin/env bash
 
 declare -A DOTFILES_LINKS=(
-  [atom/config.cson]="$HOME/.atom/config.cson"
   [bin/activate-terminal]="$HOME/bin/activate-terminal"
   [bin/cloneall]="$HOME/bin/cloneall"
   [bin/format-records]="$HOME/bin/format-records"
-  [bin/switch-input-source]="$HOME/bin/switch-input-source"
   [fish/config.fish]="$HOME/.config/fish/config.fish"
   [fish/fishfile]="$HOME/.config/fish/fishfile"
   [fish/functions/....fish]="$HOME/.config/fish/functions/....fish"
@@ -22,3 +21,5 @@ declare -A DOTFILES_LINKS=(
   [sublime/Preferences.sublime-settings]="$HOME/.config/sublime-text-3/Packages/User/Preferences.sublime-settings"
   [vscode/settings.json]="$HOME/.config/Code/User/settings.json"
 )
+
+export DOTFILES_LINKS

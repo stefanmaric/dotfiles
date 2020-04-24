@@ -2,16 +2,8 @@
     "workbench.startupEditor": "none",
     "editor.fontSize": 16,
     "editor.tabSize": 2,
-    "editor.renderWhitespace": "boundary",
+    "editor.renderWhitespace": "selection",
     "window.zoomLevel": 1,
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/node_modules": true
-    },
     "editor.links": false,
     "editor.minimap.maxColumn": 100,
     "editor.minimap.renderCharacters": false,
@@ -27,17 +19,32 @@
     "window.newWindowDimensions": "maximized",
     "window.restoreWindows": "none",
     "window.title": "${dirty}${activeEditorShort}${separator}${rootName}",
-    "search.location": "panel",
-    "update.enableWindowsBackgroundUpdates": false,
     "telemetry.enableCrashReporter": false,
     "telemetry.enableTelemetry": false,
     "npm.enableScriptExplorer": true,
     "workbench.iconTheme": "material-icon-theme",
-    "css.validate": false,
-    "less.validate": false,
-    "scss.validate": false,
     "javascript.updateImportsOnFileMove.enabled": "always",
-    "prettier.eslintIntegration": true,
     "window.titleBarStyle": "native",
-    "explorer.confirmDelete": false
+    "explorer.confirmDelete": false,
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "breadcrumbs.enabled": true,
+    "go.useLanguageServer": true,
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "search.searchOnType": false
 }

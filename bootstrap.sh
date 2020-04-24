@@ -81,9 +81,6 @@ echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" 
 wget -qO - https://repo.nordvpn.com/gpg/nordvpn_public.asc | sudo apt-key add -
 echo "deb https://repo.nordvpn.com/deb/nordvpn/debian stable main" | sudo tee /etc/apt/sources.list.d/nordvpn.list
 
-wget -qO - https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
-
 sudo add-apt-repository -n -y ppa:mozillateam/firefox-next
 sudo add-apt-repository -n -y ppa:fish-shell/release-3
 sudo add-apt-repository -n -y ppa:otto-kesselgulasch/gimp
@@ -99,8 +96,7 @@ USERLAND_PACKAGES=(
   containerd.io
   dconf-editor
   deluge
-  docker-ce
-  docker-ce-cli
+  docker.io
   firefox
   fish
   gdebi
@@ -154,7 +150,7 @@ npm -g install "${NPM_PACKAGES[@]}"
 
 wget -qO - https://git.io/g-install | sh -s -- fish bash
 source ~/.bashrc
-g install latest
+g install lts
 
 
 # git-extras

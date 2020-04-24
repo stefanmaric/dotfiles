@@ -93,7 +93,6 @@ USERLAND_PACKAGES=(
   bleachbit
   chromium-browser
   code
-  containerd.io
   dconf-editor
   deluge
   docker.io

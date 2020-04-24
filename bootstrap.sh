@@ -83,7 +83,6 @@ echo "deb https://repo.nordvpn.com/deb/nordvpn/debian stable main" | sudo tee /e
 
 sudo add-apt-repository -n -y ppa:mozillateam/firefox-next
 sudo add-apt-repository -n -y ppa:fish-shell/release-3
-sudo add-apt-repository -n -y ppa:otto-kesselgulasch/gimp
 sudo add-apt-repository -n -y ppa:git-core/ppa
 
 
@@ -100,7 +99,6 @@ USERLAND_PACKAGES=(
   fish
   gdebi
   gimp
-  gimp-gmic
   gitg
   gitk
   gmic

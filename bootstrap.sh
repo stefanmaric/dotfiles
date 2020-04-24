@@ -25,6 +25,20 @@ setup_links() {
 setup_links
 
 
+# enable all Ubuntu repos
+
+sudo apt-add-repository main
+sudo apt-add-repository universe
+sudo apt-add-repository restricted
+sudo apt-add-repository multiverse
+sudo add-apt-repository -n -y "deb http://archive.canonical.com/ubuntu $(lsb_release -sc) partner"
+
+# update
+
+sudo apt update
+sudo apt dist-upgrade -y
+
+
 # install cli essentials
 
 BASIC_PACKAGES=(
@@ -37,6 +51,7 @@ BASIC_PACKAGES=(
   curl
   gcc
   git
+  gnupg-agent
   htop
   jq
   lm-sensors
@@ -49,12 +64,10 @@ BASIC_PACKAGES=(
   whois
 )
 
-sudo apt update
-sudo apt dist-upgrade -y
 sudo apt install -y "${BASIC_PACKAGES[@]}"
 
 
-# setup Ubuntu repos
+# setup other repos
 
 wget -qO - https://syncthing.net/release-key.txt | sudo apt-key add -
 echo "deb https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
@@ -65,28 +78,32 @@ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sou
 wget -qO - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo apt-key add -
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
 
+wget -qO - https://repo.nordvpn.com/gpg/nordvpn_public.asc | sudo apt-key add -
+echo "deb https://repo.nordvpn.com/deb/nordvpn/debian stable main" | sudo tee /etc/apt/sources.list.d/nordvpn.list
+
+wget -qO - https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
+
 sudo add-apt-repository -n -y ppa:mozillateam/firefox-next
-
 sudo add-apt-repository -n -y ppa:fish-shell/release-3
-
 sudo add-apt-repository -n -y ppa:otto-kesselgulasch/gimp
-
-sudo add-apt-repository -n -y ppa:snwh/pulp
-
-sudo add-apt-repository -n -y ppa:tista/adapta
+sudo add-apt-repository -n -y ppa:git-core/ppa
 
 
 # install Ubuntu packages
 
 USERLAND_PACKAGES=(
-  adapta-gtk-theme
   bleachbit
   chromium-browser
   code
+  containerd.io
+  dconf-editor
+  deluge
+  docker-ce
+  docker-ce-cli
   firefox
   fish
   gdebi
-  dconf-editor
   gimp
   gimp-gmic
   gitg
@@ -97,9 +114,8 @@ USERLAND_PACKAGES=(
   inkscape
   network-manager-openvpn
   network-manager-openvpn-gnome
+  nordvpn
   openvpn
-  paper-cursor-theme
-  paper-icon-theme
   sublime-text
   synaptic
   syncthing
@@ -112,8 +128,6 @@ sudo apt update
 sudo apt install -y "${USERLAND_PACKAGES[@]}"
 
 sudo snap install asciinema --classic
-sudo snap install atom --classic
-sudo snap install skype --classic
 sudo snap install spotify
 sudo snap install telegram-desktop
 
@@ -126,9 +140,11 @@ source ~/.bashrc
 NPM_PACKAGES=(
   eslint
   flow-bin
-  prettier-eslint-cli
+  pnpm
+  prettier
   stylelint
   typescript
+  yarn
 )
 
 npm -g install "${NPM_PACKAGES[@]}"
@@ -136,7 +152,7 @@ npm -g install "${NPM_PACKAGES[@]}"
 
 # setup golang env
 
-wget -qO - https://git.io/g-install | bash -s -- fish bash
+wget -qO - https://git.io/g-install | sh -s -- fish bash
 source ~/.bashrc
 g install latest
 
@@ -156,3 +172,9 @@ curl --create-dirs -sSLo ~/.config/fish/completions/hub.fish https://raw.githubu
 
 curl --create-dirs -sSLo ~/.config/fish/functions/fisher.fish https://git.io/fisher
 fish -c 'fisher'
+
+# docker compose
+docker_compose_version="$(curl -sSL https://api.github.com/repos/docker/compose/releases/latest | jq --raw-output '.tag_name')"
+curl --create-dirs -sSLo ~/bin/docker-compose "https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m)"
+chmod +x ~/bin/docker-compose
+curl --create-dirs -sSLo ~/.config/fish/completions/docker-compose.fish https://raw.githubusercontent.com/docker/compose/master/contrib/completion/fish/docker-compose.fish

@@ -93,6 +93,7 @@ USERLAND_PACKAGES=(
   aspell-en
   aspell-es
   bleachbit
+  chrome-gnome-shell
   chromium-browser
   code
   dconf-editor
@@ -108,6 +109,7 @@ USERLAND_PACKAGES=(
   gnome-tweak-tool
   gnome-usage
   gparted
+  hunspell
   hunspell-en-us
   hunspell-es
   inkscape

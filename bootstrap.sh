@@ -83,6 +83,7 @@ echo "deb https://repo.nordvpn.com/deb/nordvpn/debian stable main" | sudo tee /e
 
 sudo add-apt-repository -n -y ppa:mozillateam/firefox-next
 sudo add-apt-repository -n -y ppa:fish-shell/release-3
+sudo add-apt-repository -n -y ppa:papirus/papirus
 sudo add-apt-repository -n -y ppa:git-core/ppa
 
 
@@ -117,6 +118,7 @@ USERLAND_PACKAGES=(
   network-manager-openvpn-gnome
   nordvpn
   openvpn
+  papirus-icon-theme
   sublime-text
   synaptic
   syncthing

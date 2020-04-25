@@ -89,6 +89,9 @@ sudo add-apt-repository -n -y ppa:git-core/ppa
 # install Ubuntu packages
 
 USERLAND_PACKAGES=(
+  aspell
+  aspell-en
+  aspell-es
   bleachbit
   chromium-browser
   code
@@ -103,7 +106,10 @@ USERLAND_PACKAGES=(
   gitk
   gmic
   gnome-tweak-tool
+  gnome-usage
   gparted
+  hunspell-en-us
+  hunspell-es
   inkscape
   network-manager-openvpn
   network-manager-openvpn-gnome

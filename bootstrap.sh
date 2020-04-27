@@ -107,6 +107,7 @@ USERLAND_PACKAGES=(
   gitg
   gitk
   gmic
+  gnome-clocks
   gnome-tweak-tool
   gnome-usage
   gparted

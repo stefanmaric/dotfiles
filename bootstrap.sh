@@ -114,7 +114,6 @@ USERLAND_PACKAGES=(
   hunspell
   hunspell-en-us
   hunspell-es
-  inkscape
   network-manager-openvpn
   network-manager-openvpn-gnome
   nordvpn
@@ -131,10 +130,13 @@ USERLAND_PACKAGES=(
 sudo apt update
 sudo apt install -y "${USERLAND_PACKAGES[@]}"
 
-sudo snap install asciinema --classic
-sudo snap install spotify
-sudo snap install telegram-desktop
+SNAP_PACKAGES=(
+  inkscape
+  spotify
+  telegram-desktop
+)
 
+sudo snap install "${SNAP_PACKAGES[@]}"
 
 # setup node env
 

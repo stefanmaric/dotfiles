@@ -35,8 +35,8 @@ sudo add-apt-repository -n -y "deb http://archive.canonical.com/ubuntu $(lsb_rel
 
 # update
 
-sudo apt update
-sudo apt dist-upgrade -y
+sudo DEBIAN_FRONTEND=noninteractive apt update
+sudo DEBIAN_FRONTEND=noninteractive apt dist-upgrade -y
 
 
 # install cli essentials
@@ -64,7 +64,7 @@ BASIC_PACKAGES=(
   whois
 )
 
-sudo apt install -y "${BASIC_PACKAGES[@]}"
+sudo DEBIAN_FRONTEND=noninteractive apt install -y "${BASIC_PACKAGES[@]}"
 
 
 # setup other repos
@@ -138,8 +138,8 @@ FONT_FAMILIES=(
   fonts-roboto
 )
 
-sudo apt update
-sudo apt install -y "${USERLAND_PACKAGES[@]}" "${FONT_FAMILIES[@]}"
+sudo DEBIAN_FRONTEND=noninteractive apt update
+sudo DEBIAN_FRONTEND=noninteractive apt install -y "${USERLAND_PACKAGES[@]}" "${FONT_FAMILIES[@]}"
 
 SNAP_PACKAGES=(
   inkscape

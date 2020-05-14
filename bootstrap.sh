@@ -127,8 +127,19 @@ USERLAND_PACKAGES=(
   xdotool
 )
 
+FONT_FAMILIES=(
+  fonts-cascadia-code
+  fonts-firacode
+  fonts-inconsolata
+  fonts-lato
+  fonts-monoid
+  fonts-noto
+  fonts-open-sans
+  fonts-roboto
+)
+
 sudo apt update
-sudo apt install -y "${USERLAND_PACKAGES[@]}"
+sudo apt install -y "${USERLAND_PACKAGES[@]}" "${FONT_FAMILIES[@]}"
 
 SNAP_PACKAGES=(
   inkscape

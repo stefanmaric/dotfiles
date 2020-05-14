@@ -158,7 +158,7 @@ npm -g install "${NPM_PACKAGES[@]}"
 
 # setup golang env
 
-wget -qO - https://git.io/g-install | sh -s -- fish bash
+wget -qO - https://git.io/g-install | sh -s -- -y fish bash
 source ~/.bashrc
 
 

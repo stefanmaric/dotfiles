@@ -116,14 +116,15 @@ USERLAND_PACKAGES=(
   hunspell
   hunspell-en-us
   hunspell-es
+  materia-gtk-theme
   network-manager-openvpn
   network-manager-openvpn-gnome
   nordvpn
   openvpn
   papirus-icon-theme
+  peek
   sublime-text
   synaptic
-  peek
   syncthing
   ubuntu-restricted-extras
   vlc

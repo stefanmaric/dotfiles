@@ -108,6 +108,7 @@ USERLAND_PACKAGES=(
   gitk
   gmic
   gnome-clocks
+  gnome-sound-recorder
   gnome-tweak-tool
   gnome-usage
   gparted
@@ -121,9 +122,11 @@ USERLAND_PACKAGES=(
   papirus-icon-theme
   sublime-text
   synaptic
+  peek
   syncthing
   ubuntu-restricted-extras
   vlc
+  wspanish
   xdotool
 )
 
@@ -143,6 +146,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y "${USERLAND_PACKAGES[@]}" "${
 
 SNAP_PACKAGES=(
   inkscape
+  ksnip
   spotify
   telegram-desktop
 )
@@ -189,8 +193,17 @@ curl --create-dirs -sSLo ~/.config/fish/completions/hub.fish https://raw.githubu
 curl --create-dirs -sSLo ~/.config/fish/functions/fisher.fish https://git.io/fisher
 fish -c 'fisher'
 
+
 # docker compose
+
 docker_compose_version="$(curl -sSL https://api.github.com/repos/docker/compose/releases/latest | jq --raw-output '.tag_name')"
 curl --create-dirs -sSLo ~/bin/docker-compose "https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m)"
 chmod +x ~/bin/docker-compose
 curl --create-dirs -sSLo ~/.config/fish/completions/docker-compose.fish https://raw.githubusercontent.com/docker/compose/master/contrib/completion/fish/docker-compose.fish
+
+
+# remove the update notifications and cleanup orphan packages
+
+sudo DEBIAN_FRONTEND=noninteractive apt remove -y update-notifier update-manager
+sudo DEBIAN_FRONTEND=noninteractive apt autoremove
+sudo DEBIAN_FRONTEND=noninteractive apt autoclean

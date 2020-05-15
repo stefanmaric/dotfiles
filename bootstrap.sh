@@ -205,5 +205,5 @@ curl --create-dirs -sSLo ~/.config/fish/completions/docker-compose.fish https://
 # remove the update notifications and cleanup orphan packages
 
 sudo DEBIAN_FRONTEND=noninteractive apt remove -y update-notifier update-manager
-sudo DEBIAN_FRONTEND=noninteractive apt autoremove
-sudo DEBIAN_FRONTEND=noninteractive apt autoclean
+sudo DEBIAN_FRONTEND=noninteractive apt autoremove -y
+sudo DEBIAN_FRONTEND=noninteractive apt autoclean -y

@@ -56,6 +56,7 @@ BASIC_PACKAGES=(
   jq
   lm-sensors
   make
+  mlocate
   p7zip-full
   powertop
   smem

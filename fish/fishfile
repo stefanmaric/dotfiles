@@ -2,7 +2,7 @@ fishpkg/fish-git-util
 fishpkg/fish-humanize-duration
 franciscolourenco/done
 jorgebucaran/fishtape
-nyarly/fish-bang-bang
+oh-my-fish/plugin-bang-bang
 nyarly/fish-lookup
 stefanmaric/bigfish
 stefanmaric/eslintblame

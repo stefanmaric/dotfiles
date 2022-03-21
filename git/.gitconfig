@@ -82,3 +82,7 @@
 	insteadOf = git@bitbucket.org/
 	insteadOf = ssh://git@bitbucket.org:
 	insteadOf = ssh://git@bitbucket.org/
+[pull]
+	ff = only
+[init]
+	defaultBranch = main

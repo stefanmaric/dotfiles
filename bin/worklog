@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+
+const { basename, dirname } = require('path')
+const { promisify } = require('util')
+
+const exec = promisify(require('child_process').exec)
+
+const EFFORT_PATTERN = /\s?\[f:(?:(\d+)d)?(?:(\d+)h)?(?:(\d+)m)?\]/
+
+const getEffort = (line) => {
+  const [match, days = '', hours = '', minutes = ''] = line.match(EFFORT_PATTERN) ?? []
+
+  return {
+    days,
+    hours,
+    minutes,
+  }
+}
+
+const run = async (gitArgs = []) => {
+  const args = gitArgs.map((item) => `'${item}'`).join(' ')
+  const { stdout: allLogs } = await exec(
+    `find . -name ".git" -type d -exec git -C '{}' log ${args} --all --no-merges --pretty=format:"%aI,"$(basename '{}')",%h" \\; -exec echo \\;`
+  )
+
+  const items = new Set()
+
+  for (const line of allLogs.split('\n')) {
+    if (!line) {
+      continue
+    }
+
+    const [time, dir, hash] = line.split(',')
+
+    const { stdout: message } = await exec(`git -C '${dir}' show -s --format=%B '${hash}'`)
+    const [subject] = message.split('\n')
+    const description = subject.replace(EFFORT_PATTERN, '').replaceAll('"', '""')
+    const { hours, minutes } = getEffort(message)
+    const [date] = time.split('T')
+    const component = basename(dirname(dir))
+
+    items.add(`git log,${date},${component},"${description}",${hours},${minutes}`)
+  }
+
+  Array.from(items)
+    .sort()
+    .forEach((item) => {
+      console.log(item)
+    })
+}
+
+run(process.argv.slice(2))

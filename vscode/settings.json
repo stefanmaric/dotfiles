@@ -67,9 +67,17 @@
   "java.project.importHint": false,
   "editor.bracketPairColorization.enabled": true,
   "redhat.telemetry.enabled": false,
-  "window.zoomLevel": 1,
   "svelte.enable-ts-plugin": true,
   "gitlens.currentLine.enabled": false,
   "gitlens.codeLens.enabled": false,
-  "gitlens.statusBar.enabled": false
+  "gitlens.statusBar.enabled": false,
+  "editor.inlineSuggest.enabled": true,
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": false,
+    "markdown": false,
+    "javascriptreact": true
+  },
+  "window.zoomLevel": 1
 }

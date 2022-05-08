@@ -1,5 +1,12 @@
 #!/bin/bash -i
 
+# Exit on error. Append "|| true" if you expect an error.
+set -o errexit
+
+# Tell apt to not prompt anything
+export DEBIAN_FRONTEND=noninteractive
+
+
 SETUP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 # create symlinks
@@ -27,16 +34,16 @@ setup_links
 
 # enable all Ubuntu repos
 
-sudo apt-add-repository main
-sudo apt-add-repository universe
-sudo apt-add-repository restricted
-sudo apt-add-repository multiverse
-sudo add-apt-repository -n -y "deb http://archive.canonical.com/ubuntu $(lsb_release -sc) partner"
+sudo apt-add-repository -n -y main
+sudo apt-add-repository -n -y universe
+sudo apt-add-repository -n -y restricted
+sudo apt-add-repository -n -y multiverse
+
 
 # update
 
-sudo DEBIAN_FRONTEND=noninteractive apt update
-sudo DEBIAN_FRONTEND=noninteractive apt dist-upgrade -y
+sudo apt update
+sudo apt dist-upgrade -y
 
 
 # install cli essentials
@@ -65,69 +72,95 @@ BASIC_PACKAGES=(
   whois
 )
 
-sudo DEBIAN_FRONTEND=noninteractive apt install -y "${BASIC_PACKAGES[@]}"
+sudo apt install -y "${BASIC_PACKAGES[@]}"
 
 
 # setup other repos
 
-wget -qO - https://syncthing.net/release-key.txt | sudo apt-key add -
-echo "deb https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
+wget -qO - https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
 
-wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+wget -qO - https://syncthing.net/release-key.gpg | sudo tee /usr/share/keyrings/syncthing-archive-keyring.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
 
-wget -qO - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo apt-key add -
-echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo gpg --dearmor -o /usr/share/keyrings/sublimetext-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/sublimetext-archive-keyring.gpg] https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublimetext.list
 
-wget -qO - https://repo.nordvpn.com/gpg/nordvpn_public.asc | sudo apt-key add -
-echo "deb https://repo.nordvpn.com/deb/nordvpn/debian stable main" | sudo tee /etc/apt/sources.list.d/nordvpn.list
+wget -qO - https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
 
-sudo add-apt-repository -n -y ppa:mozillateam/firefox-next
+wget -qO - https://repo.nordvpn.com/gpg/nordvpn_public.asc | sudo gpg --dearmor -o /usr/share/keyrings/nordvpn-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/nordvpn-archive-keyring.gpg] https://repo.nordvpn.com/deb/nordvpn/debian stable main" | sudo tee /etc/apt/sources.list.d/nordvpn.list
+
+wget -qO - https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /usr/share/keyrings/githubcli-archive-keyring.gpg > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/githubcli.list
+
 sudo add-apt-repository -n -y ppa:fish-shell/release-3
-sudo add-apt-repository -n -y ppa:papirus/papirus
 sudo add-apt-repository -n -y ppa:git-core/ppa
+sudo add-apt-repository -n -y ppa:inkscape.dev/stable
+sudo add-apt-repository -n -y ppa:mozillateam/firefox-next
+sudo add-apt-repository -n -y ppa:papirus/papirus
+sudo add-apt-repository -n -y ppa:peek-developers/stable
+
+
+# Replace firefox snap with firefox PPA
+
+sudo snap disable firefox
+sudo snap remove --purge firefox
+sudo apt autoremove -y firefox
+echo '
+Package: firefox*
+Pin: release o=LP-PPA-mozillateam-firefox-next
+Pin-Priority: 750
+
+Package: firefox*
+Pin: release o=LP-PPA-mozillateam-ppa
+Pin-Priority: 550
+
+Package: firefox*
+Pin: release o=Ubuntu
+Pin-Priority: -1
+' | sudo tee /etc/apt/preferences.d/mozillateamppa > /dev/null
 
 
 # install Ubuntu packages
 
-USERLAND_PACKAGES=(
+APT_PACKAGES=(
   aspell
   aspell-en
   aspell-es
   bleachbit
   chrome-gnome-shell
-  chromium-browser
   code
-  dconf-editor
+  containerd.io
   deluge
-  docker.io
+  docker-ce
+  docker-ce-cli
+  docker-compose-plugin
   firefox
   fish
+  flatpak
   gdebi
-  gimp
-  gitg
+  gh
+  git-extras
   gitk
-  gmic
-  gnome-clocks
-  gnome-sound-recorder
-  gnome-tweak-tool
+  gnome-software
+  gnome-software-plugin-flatpak
+  gnome-tweaks
   gnome-usage
   gparted
   hunspell
   hunspell-en-us
   hunspell-es
-  materia-gtk-theme
   network-manager-openvpn
   network-manager-openvpn-gnome
   nordvpn
   openvpn
   papirus-icon-theme
-  peek
   sublime-text
   synaptic
   syncthing
   ubuntu-restricted-extras
-  vlc
   wspanish
   xdotool
 )
@@ -140,20 +173,48 @@ FONT_FAMILIES=(
   fonts-monoid
   fonts-noto
   fonts-open-sans
+  fonts-powerline
   fonts-roboto
 )
 
-sudo DEBIAN_FRONTEND=noninteractive apt update
-sudo DEBIAN_FRONTEND=noninteractive apt install -y "${USERLAND_PACKAGES[@]}" "${FONT_FAMILIES[@]}"
+sudo apt update
+sudo apt install -y "${APT_PACKAGES[@]}" "${FONT_FAMILIES[@]}"
+
+
+# Flatpak
+
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+FLATPAK_PACKAGES=(
+  ca.desrt.dconf-editor
+  com.mattjakeman.ExtensionManager
+  com.spotify.Client
+  de.haeckerfelix.Fragments
+  io.bassi.Amberol
+  io.github.realmazharhussain.GdmSettings
+  io.mpv.Mpv
+  org.gimp.GIMP
+  org.gnome.baobab
+  org.gnome.Boxes
+  org.gnome.clocks
+  org.gnome.gitg
+  org.gnome.SoundRecorder
+  org.gnome.TextEditor
+  org.telegram.desktop
+  us.zoom.Zoom
+)
+
+flatpak install -y --noninteractive flathub "${FLATPAK_PACKAGES[@]}"
+
+
+# Snaps
 
 SNAP_PACKAGES=(
-  inkscape
-  ksnip
-  spotify
-  telegram-desktop
+  vlc
 )
 
 sudo snap install "${SNAP_PACKAGES[@]}"
+
 
 # setup node env
 
@@ -161,12 +222,7 @@ wget -qO - https://git.io/n-install | bash -s -- -y lts
 source ~/.bashrc
 
 NPM_PACKAGES=(
-  eslint
-  flow-bin
   pnpm
-  prettier
-  stylelint
-  typescript
   yarn
 )
 
@@ -179,33 +235,14 @@ wget -qO - https://git.io/g-install | sh -s -- -y fish bash
 source ~/.bashrc
 
 
-# git-extras
-
-wget -qO - https://git.io/git-extras-setup | sudo bash -s
-
-
-# hub
-
-go get github.com/github/hub
-curl --create-dirs -sSLo ~/.config/fish/completions/hub.fish https://raw.githubusercontent.com/github/hub/master/etc/hub.fish_completion
-
-
 # fish and fisher
 
-curl --create-dirs -sSLo ~/.config/fish/functions/fisher.fish https://git.io/fisher
-fish -c 'fisher'
-
-
-# docker compose
-
-docker_compose_version="$(curl -sSL https://api.github.com/repos/docker/compose/releases/latest | jq --raw-output '.tag_name')"
-curl --create-dirs -sSLo ~/bin/docker-compose "https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m)"
-chmod +x ~/bin/docker-compose
-curl --create-dirs -sSLo ~/.config/fish/completions/docker-compose.fish https://raw.githubusercontent.com/docker/compose/master/contrib/completion/fish/docker-compose.fish
+fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
+gh completion -s fish > ~/.config/fish/completions/gh.fish
 
 
 # remove the update notifications and cleanup orphan packages
 
-sudo DEBIAN_FRONTEND=noninteractive apt remove -y update-notifier update-manager
-sudo DEBIAN_FRONTEND=noninteractive apt autoremove -y
-sudo DEBIAN_FRONTEND=noninteractive apt autoclean -y
+sudo apt remove -y update-notifier update-manager
+sudo apt autoremove -y
+sudo apt autoclean -y

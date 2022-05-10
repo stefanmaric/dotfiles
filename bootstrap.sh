@@ -157,6 +157,7 @@ APT_PACKAGES=(
   nordvpn
   openvpn
   papirus-icon-theme
+  peek
   sublime-text
   synaptic
   syncthing

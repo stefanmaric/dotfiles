@@ -1,12 +1,10 @@
 [core]
-	editor = nano --smooth --tabstospaces --autoindent --const --tabsize=2 --fill=70
+	editor = nano --tabstospaces --autoindent --const --tabsize=2 --fill=70
 [user]
 	email = me@stefanmaric.com
 	name = Stefan Maric
 [push]
 	default = simple
-[credential]
-	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 [color]
 	branch = auto
 	diff = auto
@@ -86,3 +84,7 @@
 	ff = only
 [init]
 	defaultBranch = main
+[credential "https://github.com"]
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = !/usr/bin/gh auth git-credential

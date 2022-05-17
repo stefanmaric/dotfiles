@@ -1,7 +1,6 @@
 #!/bin/env bash
 
 declare -A DOTFILES_LINKS=(
-  [bin/activate-terminal]="$HOME/bin/activate-terminal"
   [bin/cloneall]="$HOME/bin/cloneall"
   [bin/worklog]="$HOME/bin/worklog"
   [fish/config.fish]="$HOME/.config/fish/config.fish"

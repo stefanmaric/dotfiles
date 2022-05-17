@@ -1,5 +1,0 @@
-[
-	{ "keys": ["ctrl+alt+up"], "command": "select_lines", "args": {"forward": false} },
-	{ "keys": ["ctrl+alt+down"], "command": "select_lines", "args": {"forward": true} },
-	{ "keys": ["ctrl+alt+m"], "command": "toggle_menu" }
-]

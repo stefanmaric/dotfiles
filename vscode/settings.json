@@ -19,7 +19,7 @@
   "telemetry.enableTelemetry": false,
   "workbench.iconTheme": "material-icon-theme",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "window.titleBarStyle": "native",
+  "window.titleBarStyle": "custom",
   "explorer.confirmDelete": false,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

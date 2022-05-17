@@ -7,7 +7,6 @@ declare -A DOTFILES_LINKS=(
   [fish/config.fish]="$HOME/.config/fish/config.fish"
   [fish/fish_plugins]="$HOME/.config/fish/fish_plugins"
   [fish/functions/....fish]="$HOME/.config/fish/functions/....fish"
-  [fish/functions/fish_title.fish]="$HOME/.config/fish/functions/fish_title.fish"
   [fish/functions/take.fish]="$HOME/.config/fish/functions/take.fish"
   [fish/functions/treediff.fish]="$HOME/.config/fish/functions/treediff.fish"
   [git/.gitconfig]="$HOME/.gitconfig"

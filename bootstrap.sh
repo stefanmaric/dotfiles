@@ -291,6 +291,8 @@ max_parellel_downloads=10
   # sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
   # sudo dnf install -y lame\* --exclude=lame-devel
   # sudo dnf group upgrade -y --with-optional Multimedia
+  sudo dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld
+  sudo dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
 
   # Enable full flathub
   sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

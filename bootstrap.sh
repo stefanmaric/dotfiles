@@ -310,7 +310,7 @@ max_parellel_downloads=10
 
   flatpak install -y --noninteractive flathub "${FLATPAK_PACKAGES[@]}"
 
-  sudo dnf upgrade --refresh
+  sudo dnf upgrade -y --refresh
 }
 
 unpackaged() {

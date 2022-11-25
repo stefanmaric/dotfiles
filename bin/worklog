@@ -1,11 +1,47 @@
 #!/usr/bin/env node
 
-const { basename, dirname } = require('path')
-const { promisify } = require('util')
+const { basename, dirname, resolve, join } = require('node:path')
+const { mkdir, writeFile } = require('node:fs/promises')
+const { promisify } = require('node:util')
 
-const exec = promisify(require('child_process').exec)
+const exec = promisify(require('node:child_process').exec)
 
 const EFFORT_PATTERN = /\s?\[f:(?:(\d+)d)?(?:(\d+)h)?(?:(\d+)m)?\]/
+
+const CWD = process.cwd()
+
+const ONE_WEEK = 7 * 24 * 3600 * 1000
+
+const getWeekNumber = (date) => {
+  // Create a copy of this date object
+  const target = new Date(date)
+
+  // ISO week date weeks start on monday
+  // so correct the day number
+  const dayNr = (target.getDay() + 6) % 7
+
+  // ISO 8601 states that week 1 is the week
+  // with the first thursday of that year.
+  // Set the target date to the thursday in the target week
+  target.setDate(target.getDate() - dayNr + 3)
+
+  // Store the millisecond value of the target date
+  const firstThursday = target.valueOf()
+
+  // Set the target to the first thursday of the year
+  // First set the target to january first
+  target.setMonth(0, 1)
+  // Not a thursday? Correct the date to the next thursday
+  if (target.getDay() != 4) {
+    target.setMonth(0, 1 + ((4 - target.getDay() + 7) % 7))
+  }
+
+  // The weeknumber is the number of weeks between the
+  // first thursday of the year and the thursday in the target week
+  const weeknumber = 1 + Math.ceil((firstThursday - target) / ONE_WEEK)
+
+  return weeknumber
+}
 
 const getEffort = (line) => {
   const [match, days = '', hours = '', minutes = ''] = line.match(EFFORT_PATTERN) ?? []
@@ -17,13 +53,28 @@ const getEffort = (line) => {
   }
 }
 
-const run = async (gitArgs = []) => {
-  const args = gitArgs.map((item) => `'${item}'`).join(' ')
+const run = async (arguments = []) => {
+  const args = []
+  let dest
+
+  while (arguments.length) {
+    const next = arguments.shift()
+
+    if (next === '--write') {
+      dest = resolve(CWD, arguments.shift())
+      await mkdir(dest, { recursive: true })
+    } else {
+      args.push(next)
+    }
+  }
+
+  const gitparams = args.map((item) => `'${item}'`).join(' ')
   const { stdout: allLogs } = await exec(
-    `find . -name ".git" -type d -exec git -C '{}' log ${args} --all --no-merges --pretty=format:"%aI,"$(basename '{}')",%h" \\; -exec echo \\;`
+    `find . -name ".git" -type d -exec git -C '{}' log ${gitparams} --all --no-merges --pretty=format:"%aI,"$(basename '{}')",%h" \\; -exec echo \\;`
   )
 
   const items = new Set()
+  const grouped = {}
 
   for (const line of allLogs.split('\n')) {
     if (!line) {
@@ -40,13 +91,25 @@ const run = async (gitArgs = []) => {
     const component = basename(dirname(dir))
 
     items.add(`git log,${date},${component},"${description}",${hours},${minutes}`)
+
+    const weekNumber = getWeekNumber(date)
+
+    if (!grouped[weekNumber]) {
+      grouped[weekNumber] = new Set()
+    }
+
+    grouped[weekNumber].add(`git log,${date},${component},"${description}",${hours},${minutes}`)
   }
 
-  Array.from(items)
-    .sort()
-    .forEach((item) => {
+  if (dest) {
+    for (const [week, items] of Object.entries(grouped)) {
+      await writeFile(join(dest, `${week}.csv`), Array.from(items).sort().join('\n'))
+    }
+  } else {
+    for (const item of Array.from(items).sort()) {
       console.log(item)
-    })
+    }
+  }
 }
 
 run(process.argv.slice(2))

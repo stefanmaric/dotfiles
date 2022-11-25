@@ -331,7 +331,10 @@ unpackaged() {
 
   # fish and fisher
   fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
-  gh completion -s fish >~/.config/fish/completions/gh.fish
+  git checkout -- fish/fish_plugins
+  fish -c 'fisher update'
+  gh completion -s fish > ~/.config/fish/completions/gh.fish
+  sudo usermod -s $(which fish) $USERNAME
 }
 
 

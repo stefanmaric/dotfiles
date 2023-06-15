@@ -3,6 +3,7 @@
 [user]
 	email = me@stefanmaric.com
 	name = Stefan Maric
+	signingkey = /home/sam/.ssh/id_rsa.pub
 [push]
 	default = simple
 [color]
@@ -88,3 +89,7 @@
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = !/usr/bin/gh auth git-credential
+[gpg]
+	format = ssh
+[commit]
+	gpgSign = true

@@ -1,4 +1,5 @@
 set -gx PATH $PATH $HOME/bin
+set -gx PATH $PATH $HOME/.local/bin
 
 set -gx N_PREFIX $HOME/n
 set -gx PATH $PATH $N_PREFIX/bin

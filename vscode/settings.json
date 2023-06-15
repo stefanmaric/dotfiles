@@ -79,5 +79,7 @@
     "markdown": false,
     "javascriptreact": true
   },
+  "editor.minimap.enabled": false,
+  "editor.linkedEditing": true,
   "window.zoomLevel": 1
 }

@@ -5,7 +5,7 @@ set -o errexit
 
 SETUP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
 
-# create symlinks
+# Create symlinks. This should be done early.
 setup_links() {
   source "$SETUP_DIR/DOTFILES_LINKS.sh"
 
@@ -23,6 +23,31 @@ setup_links() {
     fi
   done
 }
+
+# Cross-platform util to find shell config paths.
+get_dotfile_for_shell() {
+  case "$1" in
+    bash)
+      if [ "$(uname | tr '[:upper:]' '[:lower:]')" = "darwin" ]; then
+        echo "$HOME/.bash_profile"
+      else
+        echo "$HOME/.bashrc"
+      fi
+      ;;
+    fish) echo "$HOME/.config/fish/config.fish" ;;
+    zsh) echo "$HOME/.zshrc" ;;
+    csh) echo "$HOME/.cshrc" ;;
+    tcsh) echo "$HOME/.tcshrc" ;;
+    ash | dash)
+      if [ -z "${ENV:-}" ] || [ ! -f "$ENV" ]; then
+        error_and_abort "for ash and dash, the \$ENV var must be properly configured"
+      else
+        echo "$ENV"
+      fi
+      ;;
+  esac
+}
+
 
 # This is for stuff when using ubuntu as the actual OS vs ubuntu inside WSL
 ubuntu_userland() {
@@ -143,6 +168,7 @@ Pin-Priority: -1
   sudo snap install "${SNAP_PACKAGES[@]}"
 }
 
+# This is the base Ubuntu setup, used for both, Ubuntu as desktop OS and Ubuntu inside WSL.
 setup_ubuntu() {
   # enable all Ubuntu repos
   sudo apt-add-repository -n -y main
@@ -210,8 +236,11 @@ setup_ubuntu() {
   sudo apt remove -y update-notifier update-manager
   sudo apt autoremove -y
   sudo apt autoclean -y
+
+  sudo usermod -s $(which fish) $USERNAME
 }
 
+# The userland Fedora setup.
 setup_fedora() {
   # Tweak dnf config for faster downloads
   echo '
@@ -311,47 +340,101 @@ max_parellel_downloads=10
   flatpak install -y --noninteractive flathub "${FLATPAK_PACKAGES[@]}"
 
   sudo dnf upgrade -y --refresh
+
+  sudo usermod -s $(which fish) $USERNAME
+}
+
+setup_macos() {
+  touch "$HOME/.bash_profile"
+
+  BREW_CLI_PACKAGES=(
+    bash
+    curl
+    fish
+    gh
+    git
+    git-extras
+    git-gui
+    htop
+    jq
+    p7zip
+    syncthing
+    tree
+    wget
+  )
+
+  brew install "${BREW_CLI_PACKAGES[@]}"
+
+  BREW_CASK_PACKAGES=(
+    alt-tab
+    bitwarden
+    clocker
+    dbeaver-community
+    firefox
+    google-chrome
+    kap
+    keepingyouawake
+    kitty
+    libreoffice
+    maccy
+    mongodb-compass
+    orbstack
+    rectangle
+    stats
+    visual-studio-code
+  )
+
+  brew install --cask "${BREW_CASK_PACKAGES[@]}"
+
+  echo $(which fish) | sudo tee -a /etc/shells
+  chsh -s $(which fish)
+  echo 'eval (/opt/homebrew/bin/brew shellenv)' >> $(get_dotfile_for_shell fish)
 }
 
 unpackaged() {
   # setup node env
-  wget -qO - https://git.io/n-install | bash -s -- -y lts
-  source ~/.bashrc
+  wget -qO - https://git.io/n-install | SHELL=fish bash -s -- -y lts
+  echo 'export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"' >> $(get_dotfile_for_shell bash)
+  source $(get_dotfile_for_shell bash)
 
   NPM_PACKAGES=(
     pnpm
     yarn
+    tsx
   )
 
   npm -g install "${NPM_PACKAGES[@]}"
 
   # setup golang env
   wget -qO - https://git.io/g-install | sh -s -- -y fish bash
-  source ~/.bashrc
+  source $(get_dotfile_for_shell bash)
 
   # fish and fisher
   fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
   git checkout -- fish/fish_plugins
   fish -c 'fisher update'
   gh completion -s fish > ~/.config/fish/completions/gh.fish
-  sudo usermod -s $(which fish) $USERNAME
 }
 
 
 init() {
   setup_links
 
-  source /etc/os-release
+  if [ "$(uname | tr '[:upper:]' '[:lower:]')" = "darwin" ]; then
+    setup_macos
+  else
+    source /etc/os-release
 
-  case $ID in
-  ubuntu)
-    export DEBIAN_FRONTEND=noninteractive
-    setup_ubuntu
-    ;;
-  fedora)
-    setup_fedora
-    ;;
-  esac
+    case $ID in
+    ubuntu)
+      export DEBIAN_FRONTEND=noninteractive
+      setup_ubuntu
+      ;;
+    fedora)
+      setup_fedora
+      ;;
+    esac
+  fi
 
   unpackaged
 }

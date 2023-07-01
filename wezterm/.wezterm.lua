@@ -16,24 +16,28 @@ end
 
 -- For example, changing the color scheme:
 -- config.color_scheme = 'AdventureTime'
-config.color_scheme = 'Dracula'
-config.color_scheme = 'cyberpunk'
-config.color_scheme = 'Duotone Dark'
-config.color_scheme = 'Calamity'
-config.color_scheme = 'ChallengerDeep'
-config.color_scheme = 'jubi'
-config.color_scheme = 'lovelace'
-config.color_scheme = 'purplepeter'
-config.color_scheme = 'Sakura'
-config.color_scheme = 'tokyonight_moon'
-config.color_scheme = 'Urple'
-config.color_scheme = 'Whimsy'
+-- config.color_scheme = 'Dracula'
+-- config.color_scheme = 'cyberpunk'
+-- config.color_scheme = 'Duotone Dark'
+-- config.color_scheme = 'Calamity'
+-- config.color_scheme = 'ChallengerDeep'
+-- config.color_scheme = 'jubi'
+-- config.color_scheme = 'lovelace'
+-- config.color_scheme = 'purplepeter'
+-- config.color_scheme = 'Sakura'
+-- config.color_scheme = 'tokyonight_moon'
+-- config.color_scheme = 'Urple'
+-- config.color_scheme = 'Whimsy'
 config.color_scheme = 'duskfox'
 
 config.show_tab_index_in_tab_bar = false
+
 config.default_cursor_style = 'BlinkingBar'
+config.cursor_blink_ease_in = 'Constant'
+config.cursor_blink_ease_out = 'Constant'
 config.cursor_thickness = '1.5pt'
 config.cursor_blink_rate = 500
+
 config.font_size = 16.0
 
 config.window_frame = {

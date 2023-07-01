@@ -12,15 +12,12 @@
 	status = auto
 [alias]
 	amend = commit --status --verbose --amend
-	ap = add --patch
-	br = branch
 	bl = branch -av
 	c = commit --status --verbose
 	cm = commit -m
 	co = checkout
 	dc = diff --cached
 	diff = diff --word-diff=color
-	lc = log -1
 	st = status --short --branch
 	tl = tag --list
 	su = !git pull && git submodule foreach 'git checkout $(git -C $toplevel symbolic-ref --short --quiet HEAD) && git pull'

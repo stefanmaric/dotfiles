@@ -13,6 +13,7 @@ declare -A DOTFILES_LINKS=(
   [run-or-raise/shortcuts.conf]="$HOME/.config/run-or-raise/shortcuts.conf"
   [stack/config.yaml]="$HOME/.stack/config.yaml"
   [vscode/settings.json]="$HOME/.config/Code/User/settings.json"
+  [wezterm/.wezterm.lua]="$HOME/.wezterm.lua"
 )
 
 export DOTFILES_LINKS

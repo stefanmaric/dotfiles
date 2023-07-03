@@ -378,6 +378,7 @@ setup_macos() {
     libreoffice
     maccy
     mongodb-compass
+    mos
     orbstack
     rectangle
     stats

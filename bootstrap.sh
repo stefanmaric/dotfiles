@@ -359,6 +359,7 @@ setup_macos() {
     jq
     p7zip
     syncthing
+    terminal-notifier
     tree
     wget
   )

@@ -242,29 +242,9 @@ setup_ubuntu() {
 
 # The userland Fedora setup.
 setup_fedora() {
-  # Tweak dnf config for faster downloads
-  echo '
-fastestmirror=true
-deltarpm=true
-max_parellel_downloads=10
-  ' | sudo tee -a /etc/dnf/dnf.conf
-
-  # Enable RPM Fusion
-  sudo dnf install -y "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
-  sudo dnf install -y "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
-
   # Additional repos
   sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-  echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo
-
-  sudo rpm --import https://repo.nordvpn.com//gpg/nordvpn_public.asc
-  sudo dnf config-manager --add-repo "https://repo.nordvpn.com/yum/nordvpn/centos/$(uname -m)"
-
-  sudo rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg
-  sudo dnf config-manager --add-repo https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
-
-  sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-  sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+  echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
 
   RPM_PACKAGES=(
     automake
@@ -273,22 +253,16 @@ max_parellel_downloads=10
     bleachbit
     ca-certificates
     code
-    containerd.io
     curl
     dconf
     deluge
-    docker-ce
-    docker-ce-cli
-    docker-compose-plugin
     fish
     gcc
     gh
     gimp
-    git
     git-extras
     gitg
     gitk
-    gnome-sound-recorder
     gnome-tweaks
     google-chrome-stable
     gparted
@@ -301,14 +275,10 @@ max_parellel_downloads=10
     lm_sensors
     make
     mpv
-    nordvpn
     p7zip
-    papirus-icon-theme
-    peek
     plocate
     powertop
     smem
-    sublime-text
     syncthing
     vlc
     whois
@@ -316,25 +286,17 @@ max_parellel_downloads=10
 
   sudo dnf install -y "${RPM_PACKAGES[@]}"
 
-  # Install multimedia packages
-  # sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
-  # sudo dnf install -y lame\* --exclude=lame-devel
-  # sudo dnf group upgrade -y --with-optional Multimedia
-  sudo dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld
-  sudo dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
-
   # Enable full flathub
   sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
   FLATPAK_PACKAGES=(
     com.github.wwmm.easyeffects
     com.mattjakeman.ExtensionManager
-    com.spotify.Client
     de.haeckerfelix.Fragments
     io.bassi.Amberol
+    me.iepure.devtoolbox
     io.github.realmazharhussain.GdmSettings
     org.telegram.desktop
-    us.zoom.Zoom
   )
 
   flatpak install -y --noninteractive flathub "${FLATPAK_PACKAGES[@]}"
@@ -395,17 +357,11 @@ setup_macos() {
 
 unpackaged() {
   # setup node env
-  wget -qO - https://git.io/n-install | SHELL=fish bash -s -- -y lts
-  echo 'export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"' >> $(get_dotfile_for_shell bash)
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
   source $(get_dotfile_for_shell bash)
-
-  NPM_PACKAGES=(
-    pnpm
-    yarn
-    tsx
-  )
-
-  npm -g install "${NPM_PACKAGES[@]}"
+  pnpm completion fish > ~/.config/fish/completions/pnpm.fish
+  pnpm env use --global lts
+  echo 'set -gx PNPM_HOME $HOME/.local/share/pnpm; set -gx PATH $PATH $PNPM_HOME' >> $(get_dotfile_for_shell fish)
 
   # setup golang env
   wget -qO - https://git.io/g-install | sh -s -- -y fish bash
@@ -416,6 +372,9 @@ unpackaged() {
   git checkout -- fish/fish_plugins
   fish -c 'fisher update'
   gh completion -s fish > ~/.config/fish/completions/gh.fish
+
+  # pgkx for everything else
+  curl https://pkgx.sh | sh
 }
 
 

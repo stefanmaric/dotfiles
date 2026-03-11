@@ -9,6 +9,7 @@ declare -A DOTFILES_LINKS=(
   [fish/functions/take.fish]="$HOME/.config/fish/functions/take.fish"
   [fish/functions/treediff.fish]="$HOME/.config/fish/functions/treediff.fish"
   [git/.gitconfig]="$HOME/.gitconfig"
+  [ghostty/config.ghostty]="$HOME/.config/ghostty/config.ghostty"
   [run-or-raise/shortcuts.conf]="$HOME/.config/run-or-raise/shortcuts.conf"
 )
 

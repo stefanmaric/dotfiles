@@ -125,8 +125,11 @@ setup_ubuntu() {
 # The userland Fedora setup.
 setup_fedora() {
   # Additional repos
-  sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-  echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+  sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc &&
+  echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+
+  sudo dnf copr -y enable atim/starship
+  sudo dnf copr -y enable scottames/ghostty
 
   RPM_PACKAGES=(
     automake
@@ -136,20 +139,16 @@ setup_fedora() {
     ca-certificates
     code
     curl
-    dconf
-    deluge
     fish
     gcc
     gh
-    gimp
-    git-extras
+    ghostty
     gitg
     gitk
     gnome-tweaks
     google-chrome-stable
     gparted
     htop
-    inkscape
     jq
     langpacks-de
     langpacks-en
@@ -159,8 +158,11 @@ setup_fedora() {
     mpv
     p7zip
     plocate
+    podman
+    podman-compose
     powertop
     smem
+    starship
     syncthing
     vlc
     whois
@@ -175,10 +177,13 @@ setup_fedora() {
     com.github.wwmm.easyeffects
     com.mattjakeman.ExtensionManager
     de.haeckerfelix.Fragments
-    io.bassi.Amberol
+    org.inkscape.Inkscape
+    org.gimp.GIMP
     me.iepure.devtoolbox
+    org.gnome.Extensions
+    ca.desrt.dconf-editor
+    io.podman_desktop.PodmanDesktop
     io.github.realmazharhussain.GdmSettings
-    org.telegram.desktop
   )
 
   flatpak install -y --noninteractive flathub "${FLATPAK_PACKAGES[@]}"
@@ -186,6 +191,8 @@ setup_fedora() {
   sudo dnf upgrade -y --refresh
 
   sudo usermod -s $(which fish) $USERNAME
+
+  curl -f https://zed.dev/install.sh | sh
 }
 
 setup_macos() {
@@ -197,11 +204,12 @@ setup_macos() {
     fish
     gh
     git
-    git-extras
     git-gui
     htop
     jq
+    nano
     p7zip
+    starship
     syncthing
     terminal-notifier
     tree
@@ -212,22 +220,21 @@ setup_macos() {
 
   BREW_CASK_PACKAGES=(
     alt-tab
-    bitwarden
-    clocker
     dbeaver-community
     firefox
+    ghostty
+    gimp
     google-chrome
-    kap
+    inkscape
     keepingyouawake
-    kitty
     libreoffice
     maccy
-    mongodb-compass
     mos
     orbstack
-    rectangle
+    raycast
     stats
     visual-studio-code
+    zed
   )
 
   brew install --cask "${BREW_CASK_PACKAGES[@]}"

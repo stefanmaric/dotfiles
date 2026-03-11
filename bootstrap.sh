@@ -49,125 +49,6 @@ get_dotfile_for_shell() {
 }
 
 
-# This is for stuff when using ubuntu as the actual OS vs ubuntu inside WSL
-ubuntu_userland() {
-  # setup other repositories
-  wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo gpg --dearmor -o /usr/share/keyrings/sublimetext-archive-keyring.gpg
-  echo "deb [signed-by=/usr/share/keyrings/sublimetext-archive-keyring.gpg] https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublimetext.list
-
-  wget -qO - https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-archive-keyring.gpg
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
-
-  wget -qO - https://repo.nordvpn.com/gpg/nordvpn_public.asc | sudo gpg --dearmor -o /usr/share/keyrings/nordvpn-archive-keyring.gpg
-  echo "deb [signed-by=/usr/share/keyrings/nordvpn-archive-keyring.gpg] https://repo.nordvpn.com/deb/nordvpn/debian stable main" | sudo tee /etc/apt/sources.list.d/nordvpn.list
-
-  sudo add-apt-repository -n -y ppa:inkscape.dev/stable
-  sudo add-apt-repository -n -y ppa:mozillateam/firefox-next
-  sudo add-apt-repository -n -y ppa:papirus/papirus
-  sudo add-apt-repository -n -y ppa:peek-developers/stable
-
-  # Replace firefox snap with firefox PPA
-  sudo snap disable firefox
-  sudo snap remove --purge firefox
-  sudo apt autoremove -y firefox
-  echo '
-Package: firefox*
-Pin: release o=LP-PPA-mozillateam-firefox-next
-Pin-Priority: 750
-
-Package: firefox*
-Pin: release o=LP-PPA-mozillateam-ppa
-Pin-Priority: 550
-
-Package: firefox*
-Pin: release o=Ubuntu
-Pin-Priority: -1
-' | sudo tee /etc/apt/preferences.d/mozillateamppa >/dev/null
-
-  # install Ubuntu packages
-  APT_PACKAGES=(
-    aspell
-    aspell-en
-    aspell-es
-    bleachbit
-    chrome-gnome-shell
-    code
-    deluge
-    firefox
-    flatpak
-    gdebi
-    gnome-software
-    gnome-software-plugin-flatpak
-    gnome-tweaks
-    gnome-usage
-    gparted
-    hunspell
-    hunspell-en-us
-    hunspell-es
-    network-manager-openvpn
-    network-manager-openvpn-gnome
-    nordvpn
-    openvpn
-    papirus-icon-theme
-    peek
-    sublime-text
-    synaptic
-    ubuntu-restricted-extras
-    wspanish
-    xdotool
-  )
-
-  FONT_FAMILIES=(
-    fonts-cascadia-code
-    fonts-firacode
-    fonts-inconsolata
-    fonts-lato
-    fonts-monoid
-    fonts-noto
-    fonts-open-sans
-    fonts-powerline
-    fonts-roboto
-  )
-
-  sudo apt update
-  sudo apt install -y "${APT_PACKAGES[@]}" "${FONT_FAMILIES[@]}"
-
-  # Flatpak
-
-  sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-  FLATPAK_PACKAGES=(
-    ca.desrt.dconf-editor
-    com.github.wwmm.easyeffects
-    com.mattjakeman.ExtensionManager
-    com.spotify.Client
-    de.haeckerfelix.Fragments
-    io.bassi.Amberol
-    io.github.realmazharhussain.GdmSettings
-    io.mpv.Mpv
-    org.gimp.GIMP
-    org.gnome.baobab
-    org.gnome.Boxes
-    org.gnome.clocks
-    org.gnome.gitg
-    org.gnome.SoundRecorder
-    org.gnome.TextEditor
-    org.telegram.desktop
-    us.zoom.Zoom
-  )
-
-  flatpak install -y --noninteractive flathub "${FLATPAK_PACKAGES[@]}"
-
-  # Snaps
-
-  SNAP_PACKAGES=(
-    vlc
-  )
-
-  sudo snap refresh
-  sudo snap install "${SNAP_PACKAGES[@]}"
-}
-
 # This is the base Ubuntu setup, used for both, Ubuntu as desktop OS and Ubuntu inside WSL.
 setup_ubuntu() {
   # enable all Ubuntu repos
@@ -229,7 +110,8 @@ setup_ubuntu() {
 
   if grep -qvEi "(Microsoft|WSL)" /proc/version &>/dev/null; then
     # if running outside of WSL, install userland packages
-    ubuntu_userland
+    echo "skipped userland packages because NOT using ubuntu userland again, leaving this logic for future reference"
+    # ubuntu_userland
   fi
 
   # remove the update notifications and cleanup orphan packages

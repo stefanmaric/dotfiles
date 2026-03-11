@@ -9,11 +9,7 @@ declare -A DOTFILES_LINKS=(
   [fish/functions/take.fish]="$HOME/.config/fish/functions/take.fish"
   [fish/functions/treediff.fish]="$HOME/.config/fish/functions/treediff.fish"
   [git/.gitconfig]="$HOME/.gitconfig"
-  [prettier/.prettierrc.json]="$HOME/.prettierrc.json"
   [run-or-raise/shortcuts.conf]="$HOME/.config/run-or-raise/shortcuts.conf"
-  [stack/config.yaml]="$HOME/.stack/config.yaml"
-  [vscode/settings.json]="$HOME/.config/Code/User/settings.json"
-  [wezterm/.wezterm.lua]="$HOME/.wezterm.lua"
 )
 
 export DOTFILES_LINKS

@@ -233,7 +233,6 @@ setup_macos() {
     inkscape
     keepingyouawake
     libreoffice
-    maccy
     mos
     orbstack
     raycast

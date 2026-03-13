@@ -1,0 +1,66 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+add_newline = false
+format = """
+$directory$jobs$git_branch$git_commit$git_status$nodejs$fill${env_var.STARSHIP_HUMAN_DURATION}$time${env_var.STARSHIP_STATUS_OK}${env_var.STARSHIP_STATUS_ERR}
+$character
+"""
+
+[directory]
+fish_style_pwd_dir_length = 3
+truncate_to_repo = false
+style = "blue"
+format = "[$path]($style)[$read_only]($read_only_style)"
+
+[jobs]
+symbol_threshold = 1
+number_threshold = 9999
+style = "magenta"
+format = "[ ╱ ](bright-black)[$symbol]($style)"
+
+[git_branch]
+style = "green"
+format = "[ ╱ ](bright-black)[$symbol$branch]($style)"
+
+[git_commit]
+only_detached = true
+tag_disabled = false
+style = "yellow"
+format = "[ $hash$tag]($style)"
+
+[git_status]
+style = "yellow"
+format = "[ $stashed$staged$modified$untracked$ahead_behind]($style)"
+
+[nodejs]
+style = "bright-green"
+version_format = "${raw}"
+format = "[ ╱ ](bright-black)[$symbol($version )]($style)"
+
+[fill]
+symbol = " "
+
+[env_var.STARSHIP_HUMAN_DURATION]
+variable = "STARSHIP_HUMAN_DURATION"
+style = "bright-black"
+format = "[$env_value]($style)"
+
+[time]
+disabled = false
+time_format = "%T"
+style = "bright-black"
+format = "[ ╱ ](bright-black)[$time]($style)"
+
+[env_var.STARSHIP_STATUS_OK]
+variable = "STARSHIP_STATUS_OK"
+style = "bright-black"
+format = "[ ╱ ](bright-black)[$env_value]($style)"
+
+[env_var.STARSHIP_STATUS_ERR]
+variable = "STARSHIP_STATUS_ERR"
+style = "red"
+format = "[ ╱ ](bright-black)[$env_value]($style)"
+
+[character]
+success_symbol = "[•❭](bright-black) "
+error_symbol = "[•❭](bright-black) "

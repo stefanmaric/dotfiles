@@ -132,6 +132,7 @@ setup_fedora() {
   sudo dnf copr -y enable scottames/ghostty
 
   RPM_PACKAGES=(
+    atuin
     automake
     binutils
     bison
@@ -156,6 +157,7 @@ setup_fedora() {
     lm_sensors
     make
     mpv
+    fzf
     p7zip
     plocate
     podman
@@ -166,6 +168,7 @@ setup_fedora() {
     syncthing
     vlc
     whois
+    zoxide
   )
 
   sudo dnf install -y "${RPM_PACKAGES[@]}"
@@ -199,9 +202,11 @@ setup_macos() {
   touch "$HOME/.bash_profile"
 
   BREW_CLI_PACKAGES=(
+    atuin
     bash
     curl
     fish
+    fzf
     gh
     git
     git-gui
@@ -211,9 +216,9 @@ setup_macos() {
     p7zip
     starship
     syncthing
-    terminal-notifier
     tree
     wget
+    zoxide
   )
 
   brew install "${BREW_CLI_PACKAGES[@]}"
@@ -248,6 +253,7 @@ unpackaged() {
   # setup node env
   curl -fsSL https://get.pnpm.io/install.sh | sh -
   source $(get_dotfile_for_shell bash)
+  mkdir -p ~/.config/fish/completions
   pnpm completion fish > ~/.config/fish/completions/pnpm.fish
   pnpm env use --global lts
   echo 'set -gx PNPM_HOME $HOME/.local/share/pnpm; set -gx PATH $PATH $PNPM_HOME' >> $(get_dotfile_for_shell fish)
@@ -256,10 +262,8 @@ unpackaged() {
   wget -qO - https://git.io/g-install | sh -s -- -y fish bash
   source $(get_dotfile_for_shell bash)
 
-  # fish and fisher
-  fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
-  git checkout -- fish/fish_plugins
-  fish -c 'fisher update'
+  # fish extras
+  curl -Lo ~/.config/fish/conf.d/done.fish --create-dirs https://raw.githubusercontent.com/franciscolourenco/done/master/conf.d/done.fish
   gh completion -s fish > ~/.config/fish/completions/gh.fish
 
   # pgkx for everything else

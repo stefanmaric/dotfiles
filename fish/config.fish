@@ -1,4 +1,9 @@
 set -gx PATH $PATH $HOME/bin
 set -gx PATH $PATH $HOME/.local/bin
 
-set -gx fish_prompt_pwd_dir_length 3
+source ~/.config/fish/functions/fish_prompt.fish
+
+atuin init fish | source
+fzf --fish | source
+zoxide init fish | source
+starship init fish | source

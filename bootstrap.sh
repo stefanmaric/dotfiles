@@ -262,6 +262,7 @@ unpackaged() {
   source $(get_dotfile_for_shell bash)
 
   # fish extras
+  mkdir -p ~/.config/fish/completions
   curl -Lo ~/.config/fish/conf.d/done.fish --create-dirs https://raw.githubusercontent.com/franciscolourenco/done/master/conf.d/done.fish
   gh completion -s fish > ~/.config/fish/completions/gh.fish
 

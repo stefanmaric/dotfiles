@@ -250,16 +250,12 @@ setup_macos() {
 
 unpackaged() {
   # setup node env
+  export PNPM_HOME="$HOME/.local/share/pnpm"
   curl -fsSL https://get.pnpm.io/install.sh | sh -
-  source $(get_dotfile_for_shell bash)
-  mkdir -p ~/.config/fish/completions
-  pnpm completion fish > ~/.config/fish/completions/pnpm.fish
-  pnpm env use --global lts
-  echo 'set -gx PNPM_HOME $HOME/.local/share/pnpm; set -gx PATH $PATH $PNPM_HOME' >> $(get_dotfile_for_shell fish)
+  fish -lc 'pnpm env use --global lts'
 
   # setup golang env
   wget -qO - https://git.io/g-install | sh -s -- -y fish bash
-  source $(get_dotfile_for_shell bash)
 
   # fish extras
   mkdir -p ~/.config/fish/completions

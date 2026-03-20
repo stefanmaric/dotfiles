@@ -1,0 +1,72 @@
+#!/bin/sh
+
+set -eu
+
+usage() {
+  cat <<'EOF'
+Usage: git-gone-stats [base-ref]
+
+Print local branches whose upstream is [gone], with diff stats against the base ref.
+
+Defaults:
+  base-ref  origin default branch, otherwise origin/main, otherwise main
+EOF
+}
+
+die() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+sanitize_field() {
+  printf '%s' "$1" | tr '\t\n' '  '
+}
+
+if [ "$#" -gt 0 ]; then
+  case "$1" in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+  esac
+fi
+
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die 'Not inside a Git repository'
+
+base_input=${1:-}
+
+if [ -z "$base_input" ]; then
+  base_input=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || true)
+
+  if [ -z "$base_input" ]; then
+    if git show-ref --verify --quiet refs/remotes/origin/main; then
+      base_input=origin/main
+    elif git show-ref --verify --quiet refs/heads/main; then
+      base_input=main
+    else
+      die 'Could not determine a default base ref. Pass one explicitly.'
+    fi
+  fi
+fi
+
+git rev-parse --verify "$base_input^{commit}" >/dev/null 2>&1 || die "Invalid base ref: $base_input"
+
+tmpfile=$(mktemp "${TMPDIR:-/tmp}/git-gone-stats.XXXXXX")
+tab=$(printf '\t')
+trap 'rm -f "$tmpfile"' EXIT HUP INT TERM
+
+git for-each-ref --format='%(refname:short)%09%(upstream:track)' refs/heads |
+while IFS="$tab" read -r branch tracking; do
+  [ -n "$branch" ] || continue
+  [ "$tracking" = '[gone]' ] || continue
+
+  files=$(git diff -w --numstat "$base_input...$branch" | wc -l | tr -d ' ')
+  stat=$(git diff -w --shortstat "$base_input...$branch" || true)
+  author=$(sanitize_field "$(git log -1 --format=%an "$branch")")
+  title=$(sanitize_field "$(git log -1 --format=%s "$branch")")
+
+  printf '%s\t%s\t%s\t%s\t%s\n' "$branch" "${files:-0}" "$author" "$title" "${stat:-no diff}"
+done | sort -t "$tab" -k2,2n > "$tmpfile"
+
+printf 'BRANCH\tFILES\tAUTHOR\tTITLE\tDIFF (ignoring whitespace)\n'
+cat "$tmpfile" | column -t -s "$tab"

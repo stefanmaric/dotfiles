@@ -1,6 +1,10 @@
 #!/bin/env bash
 
 declare -A DOTFILES_LINKS=(
+  [bin/git-gone-stats]="$HOME/bin/git-gone-stats"
+  [bin/git-env-only-branches]="$HOME/bin/git-env-only-branches"
+  [bin/git-purge]="$HOME/bin/git-purge"
+  [bin/git-publish]="$HOME/bin/git-publish"
   [bin/worklog]="$HOME/bin/worklog"
   [fish/conf.d/history-expansion.fish]="$HOME/.config/fish/conf.d/history-expansion.fish"
   [fish/conf.d/starship-context.fish]="$HOME/.config/fish/conf.d/starship-context.fish"

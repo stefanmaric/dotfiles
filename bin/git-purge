@@ -1,0 +1,130 @@
+#!/bin/sh
+
+set -eu
+
+usage() {
+  cat <<'EOF'
+Usage: git-purge [--dry-run] [remote] [base-branch]
+
+Clean up merged remote and local branches for the current repository.
+
+Defaults:
+  remote      origin
+  base-branch remote HEAD branch
+EOF
+}
+
+log() {
+  printf '%s\n' "$*"
+}
+
+warn() {
+  printf '%s\n' "$*" >&2
+}
+
+die() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+protected_branch() {
+  case "$1" in
+    ''|HEAD|main|master|develop|development|staging|production)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+run() {
+  if [ "$dry_run" -eq 1 ]; then
+    printf '[dry-run] %s\n' "$*"
+  else
+    "$@"
+  fi
+}
+
+dry_run=0
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --dry-run)
+      dry_run=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      die "Unknown option: $1"
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+remote=${1:-origin}
+base_branch=${2:-}
+
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die 'Not inside a Git repository'
+git remote get-url "$remote" >/dev/null 2>&1 || die "Remote does not exist: $remote"
+
+log "Fetching $remote..."
+git fetch "$remote"
+git remote set-head "$remote" -a >/dev/null 2>&1 || true
+
+if [ -z "$base_branch" ]; then
+  remote_head_ref=$(git symbolic-ref --quiet "refs/remotes/$remote/HEAD" 2>/dev/null || true)
+  [ -n "$remote_head_ref" ] || die "Could not determine $remote default branch. Pass it explicitly."
+  base_branch=${remote_head_ref#refs/remotes/$remote/}
+fi
+
+base_ref="refs/remotes/$remote/$base_branch"
+git show-ref --verify --quiet "$base_ref" || die "Base branch not found: $remote/$base_branch"
+
+current_branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)
+
+log "Using base branch $remote/$base_branch"
+
+git for-each-ref --format='%(refname:strip=3)' --merged="$base_ref" "refs/remotes/$remote" |
+while IFS= read -r branch; do
+  [ -n "$branch" ] || continue
+
+  if protected_branch "$branch" || [ "$branch" = "$base_branch" ]; then
+    continue
+  fi
+
+  if git ls-remote --exit-code --heads "$remote" "refs/heads/$branch" >/dev/null 2>&1; then
+    run git push "$remote" --delete "$branch"
+  else
+    stale_ref="refs/remotes/$remote/$branch"
+    log "Removing stale remote-tracking ref: $remote/$branch"
+
+    if ! run git update-ref -d "$stale_ref"; then
+      warn "Could not remove stale remote-tracking ref: $stale_ref"
+    fi
+  fi
+done
+
+git for-each-ref --format='%(refname:strip=2)' --merged="$base_ref" refs/heads |
+while IFS= read -r branch; do
+  [ -n "$branch" ] || continue
+
+  if protected_branch "$branch" || [ "$branch" = "$base_branch" ] || [ "$branch" = "$current_branch" ]; then
+    continue
+  fi
+
+  log "Removing merged local branch: $branch"
+  run git branch -D -- "$branch"
+done
+
+log "Running repository garbage collection..."
+run git gc --quiet

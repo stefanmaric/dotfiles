@@ -1,0 +1,154 @@
+#!/bin/sh
+
+set -eu
+
+usage() {
+  cat <<'EOF'
+Usage: git-env-only-branches [--delete] [base-ref]
+
+List branches whose diff from the base ref only touches .env-style files.
+
+Options:
+  --delete  Delete matching local branches and remote branches/refs.
+
+Defaults:
+  base-ref  origin/main, otherwise main
+EOF
+}
+
+log() {
+  printf '%s\n' "$*"
+}
+
+die() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+delete=0
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --delete)
+      delete=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      die "Unknown option: $1"
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  die "Not inside a git repository"
+fi
+
+base_input=${1:-}
+
+if [ -z "$base_input" ]; then
+  if git show-ref --verify --quiet refs/remotes/origin/main; then
+    base_input=origin/main
+  elif git show-ref --verify --quiet refs/heads/main; then
+    base_input=main
+  else
+    die "Could not find origin/main or main. Pass a base ref explicitly."
+  fi
+fi
+
+git rev-parse --verify "$base_input^{commit}" >/dev/null 2>&1 || die "Invalid base ref: $base_input"
+
+base_ref=$(git rev-parse --symbolic-full-name "$base_input")
+[ -n "$base_ref" ] || die "Could not resolve full ref for: $base_input"
+
+base_branch=${base_ref##*/}
+current_branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)
+
+env_pattern='(^|/)\.env(\..*)?$'
+
+matches_file=$(mktemp "${TMPDIR:-/tmp}/git-env-only-branches.XXXXXX")
+sep=$(printf '\037')
+trap 'rm -f "$matches_file"' EXIT HUP INT TERM
+
+git for-each-ref --format='%(refname)' refs/heads refs/remotes |
+while IFS= read -r ref; do
+  case "$ref" in
+    refs/remotes/*/HEAD)
+      continue
+      ;;
+    refs/heads/*)
+      kind='local'
+      remote_name=''
+      branch=${ref#refs/heads/}
+      short_branch=$branch
+      ;;
+    refs/remotes/*)
+      kind='remote'
+      remote_name=${ref#refs/remotes/}
+      remote_name=${remote_name%%/*}
+      branch=${ref#refs/remotes/}
+      short_branch=${branch#${remote_name}/}
+      ;;
+    *)
+      continue
+      ;;
+  esac
+
+  [ "$ref" = "$base_ref" ] && continue
+
+  if [ "$short_branch" = "$base_branch" ]; then
+    continue
+  fi
+
+  files=$(git diff --name-only "$base_ref...$ref" || true)
+  [ -n "$files" ] || continue
+
+  if printf '%s\n' "$files" | grep -Eqv "$env_pattern"; then
+    continue
+  fi
+
+  file_list=$(printf '%s\n' "$files" | paste -sd ',' -)
+  printf '%s%s%s%s%s%s%s%s%s%s%s\n' "$kind" "$sep" "$branch" "$sep" "$remote_name" "$sep" "$short_branch" "$sep" "$ref" "$sep" "$file_list"
+done | sort -t "$sep" -k1,1 -k2,2 > "$matches_file"
+
+if [ "$delete" -eq 0 ]; then
+  printf '%-8s %-40s %s\n' "KIND" "BRANCH" "FILES"
+  while IFS="$sep" read -r kind branch remote_name short_branch ref file_list; do
+    printf '%-8s %-40s %s\n' "$kind" "$branch" "$file_list"
+  done < "$matches_file"
+  exit 0
+fi
+
+while IFS="$sep" read -r kind branch remote_name short_branch ref file_list; do
+  case "$kind" in
+    local)
+      if [ "$short_branch" = "$current_branch" ]; then
+        log "Skipping current branch: $short_branch"
+        continue
+      fi
+
+      log "Deleting local branch: $short_branch"
+      git branch -D -- "$short_branch"
+      ;;
+    remote)
+      if git ls-remote --exit-code --heads "$remote_name" "refs/heads/$short_branch" >/dev/null 2>&1; then
+        log "Deleting remote branch: $remote_name/$short_branch"
+        git push "$remote_name" --delete "$short_branch"
+      else
+        log "Removing stale remote-tracking ref: $branch"
+      fi
+
+      git update-ref -d "$ref"
+      ;;
+  esac
+done < "$matches_file"

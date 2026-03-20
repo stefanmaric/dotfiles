@@ -134,16 +134,19 @@ setup_fedora() {
   RPM_PACKAGES=(
     atuin
     automake
+    bat
     binutils
     bison
     bleachbit
     ca-certificates
     code
     curl
+    fd-find
     fish
     gcc
     gh
     ghostty
+    git-delta
     gitg
     gitk
     gnome-tweaks
@@ -163,6 +166,7 @@ setup_fedora() {
     podman
     podman-compose
     powertop
+    ripgrep
     smem
     starship
     syncthing
@@ -204,16 +208,20 @@ setup_macos() {
   BREW_CLI_PACKAGES=(
     atuin
     bash
+    bat
     curl
+    fd
     fish
     fzf
     gh
     git
+    git-delta
     git-gui
     htop
     jq
     nano
     p7zip
+    ripgrep
     starship
     syncthing
     tree

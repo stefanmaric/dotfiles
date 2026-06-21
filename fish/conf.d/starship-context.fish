@@ -19,6 +19,7 @@ function __stefanmaric_starship_set_context --argument-names exit_status duratio
 end
 
 function __stefanmaric_starship_postexec --on-event fish_postexec
+    set -l exit_status $status
     set -l duration_ms 0
 
     if set -q CMD_DURATION
@@ -27,7 +28,7 @@ function __stefanmaric_starship_postexec --on-event fish_postexec
         set duration_ms $cmd_duration
     end
 
-    __stefanmaric_starship_set_context $status $duration_ms
+    __stefanmaric_starship_set_context $exit_status $duration_ms
 end
 
 __stefanmaric_starship_set_context 0 0

@@ -260,7 +260,7 @@ unpackaged() {
   # setup node env
   export PNPM_HOME="$HOME/.local/share/pnpm"
   curl -fsSL https://get.pnpm.io/install.sh | sh -
-  fish -lc 'pnpm env use --global lts'
+  fish -lc "$PNPM_HOME/bin/pnpm runtime set node lts -g"
 
   # setup golang env
   wget -qO - https://git.io/g-install | sh -s -- -y fish bash

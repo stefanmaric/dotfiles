@@ -38,6 +38,25 @@ protected_branch() {
   esac
 }
 
+branch_integrated() {
+  candidate_ref=$1
+
+  if git merge-base --is-ancestor "$candidate_ref" "$base_ref"; then
+    integration_method=ancestry
+    return 0
+  fi
+
+  cherry_output=$(git cherry "$base_ref" "$candidate_ref" 2>/dev/null) || return 1
+  [ -n "$cherry_output" ] || return 1
+
+  if printf '%s\n' "$cherry_output" | grep -q '^+'; then
+    return 1
+  fi
+
+  integration_method=patch-equivalent
+  return 0
+}
+
 run() {
   if [ "$dry_run" -eq 1 ]; then
     printf '[dry-run] %s\n' "$*"
@@ -78,7 +97,7 @@ git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die 'Not inside a Git rep
 git remote get-url "$remote" >/dev/null 2>&1 || die "Remote does not exist: $remote"
 
 log "Fetching $remote..."
-git fetch "$remote"
+git fetch --prune "$remote"
 git remote set-head "$remote" -a >/dev/null 2>&1 || true
 
 if [ -z "$base_branch" ]; then
@@ -94,7 +113,7 @@ current_branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)
 
 log "Using base branch $remote/$base_branch"
 
-git for-each-ref --format='%(refname:strip=3)' --merged="$base_ref" "refs/remotes/$remote" |
+git for-each-ref --format='%(refname:strip=3)' "refs/remotes/$remote" |
 while IFS= read -r branch; do
   [ -n "$branch" ] || continue
 
@@ -102,7 +121,10 @@ while IFS= read -r branch; do
     continue
   fi
 
+  branch_integrated "refs/remotes/$remote/$branch" || continue
+
   if git ls-remote --exit-code --heads "$remote" "refs/heads/$branch" >/dev/null 2>&1; then
+    log "Removing integrated remote branch ($integration_method): $remote/$branch"
     run git push "$remote" --delete "$branch"
   else
     stale_ref="refs/remotes/$remote/$branch"
@@ -114,7 +136,7 @@ while IFS= read -r branch; do
   fi
 done
 
-git for-each-ref --format='%(refname:strip=2)' --merged="$base_ref" refs/heads |
+git for-each-ref --format='%(refname:strip=2)' refs/heads |
 while IFS= read -r branch; do
   [ -n "$branch" ] || continue
 
@@ -122,7 +144,9 @@ while IFS= read -r branch; do
     continue
   fi
 
-  log "Removing merged local branch: $branch"
+  branch_integrated "refs/heads/$branch" || continue
+
+  log "Removing integrated local branch ($integration_method): $branch"
   run git branch -D -- "$branch"
 done
 

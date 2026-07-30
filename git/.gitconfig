@@ -12,7 +12,7 @@
 	status = auto
 [alias]
 	amend = commit --status --verbose --amend
-	bl = branch -av
+	bl = branch -av --sort=-committerdate
 	c = commit --status --verbose
 	cm = commit -m
 	co = checkout

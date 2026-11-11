@@ -11,16 +11,18 @@ setup_links() {
 
   for file in "${!DOTFILES_LINKS[@]}"; do
     local SRC_PATH="$SETUP_DIR/$file"
-    local DST_PATH="${DOTFILES_LINKS[$file]}"
-    local DST_DIR="$(dirname "$DST_PATH")"
 
-    if [[ -f "$SRC_PATH" ]]; then
-      echo INFO: "Linking $file in $DST_PATH"
-      mkdir -p "$DST_DIR"
-      ln -s -f "$SRC_PATH" "$DST_PATH"
-    else
+    if [[ ! -f "$SRC_PATH" ]]; then
       echo ERROR: "$SRC_PATH doesn't exist"
+      continue
     fi
+
+    # A file may map to several space-separated destinations.
+    for DST_PATH in ${DOTFILES_LINKS[$file]}; do
+      echo INFO: "Linking $file in $DST_PATH"
+      mkdir -p "$(dirname "$DST_PATH")"
+      ln -s -f "$SRC_PATH" "$DST_PATH"
+    done
   done
 }
 

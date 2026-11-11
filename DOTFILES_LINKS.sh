@@ -1,6 +1,7 @@
 #!/bin/env bash
 
 declare -A DOTFILES_LINKS=(
+  [agents/AGENTS.md]="$HOME/.claude/CLAUDE.md $HOME/.claude-personal/CLAUDE.md $HOME/.config/opencode/AGENTS.md"
   [bin/git-gone-stats]="$HOME/.local/bin/git-gone-stats"
   [bin/git-env-only-branches]="$HOME/.local/bin/git-env-only-branches"
   [bin/git-purge]="$HOME/.local/bin/git-purge"

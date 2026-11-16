@@ -234,19 +234,14 @@ setup_macos() {
   brew install "${BREW_CLI_PACKAGES[@]}"
 
   BREW_CASK_PACKAGES=(
-    alt-tab
     dbeaver-community
     firefox
     ghostty
     gimp
     google-chrome
     inkscape
-    keepingyouawake
     libreoffice
-    mos
     orbstack
-    raycast
-    stats
     visual-studio-code
     zed
   )

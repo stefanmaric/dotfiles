@@ -9,6 +9,7 @@ declare -A DOTFILES_LINKS=(
   [bin/worklog]="$HOME/.local/bin/worklog"
   [fish/conf.d/history-expansion.fish]="$HOME/.config/fish/conf.d/history-expansion.fish"
   [fish/conf.d/starship-context.fish]="$HOME/.config/fish/conf.d/starship-context.fish"
+  [fish/conf.d/telemetry.fish]="$HOME/.config/fish/conf.d/telemetry.fish"
   [fish/config.fish]="$HOME/.config/fish/config.fish"
   [fish/functions/__history_previous_command.fish]="$HOME/.config/fish/functions/__history_previous_command.fish"
   [fish/functions/__history_previous_command_arguments.fish]="$HOME/.config/fish/functions/__history_previous_command_arguments.fish"

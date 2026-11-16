@@ -241,6 +241,7 @@ setup_macos() {
     google-chrome
     inkscape
     libreoffice
+    lulu
     orbstack
     visual-studio-code
     zed
